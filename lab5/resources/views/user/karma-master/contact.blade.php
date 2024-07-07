@@ -9,7 +9,7 @@
                 <h1>Contact Us</h1>
                 <nav class="d-flex align-items-center">
                     <a href="{{ url('/') }}">Home<span class="lnr lnr-arrow-right"></span></a>
-                    <a href="{{ url('contact') }}">Contact</a>
+                    <a href="{{ url('contact') }}">Contact LKJSLKJFLFJL</a>
                 </nav>
             </div>
         </div>
