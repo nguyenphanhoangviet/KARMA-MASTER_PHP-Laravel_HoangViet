@@ -3,23 +3,14 @@
 @section('content')
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h2>User Details</h2>
+            <a href="{{ route('admin.user.index') }}" class="btn btn-purple">Back to List</a>
         </div>
         <div class="card-body">
-            <div class="mb-3">
-                <label class="form-label">Name:</label>
-                <p class="form-control-plaintext">{{ $user->name }}</p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Email:</label>
-                <p class="form-control-plaintext">{{ $user->email }}</p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Role:</label>
-                <p class="form-control-plaintext">{{ $user->role }}</p>
-            </div>
-            <a href="{{ route('admin.user.index') }}" class="btn btn-secondary">Back to List</a>
+            <p><strong>Name:</strong> {{ $user->name }}</p> 
+            <p><strong>Email:</strong> {{ $user->email }}</p> 
+            <p><strong>Role:</strong> {{ $user->role }}</p>    
         </div>
     </div>
 </div>

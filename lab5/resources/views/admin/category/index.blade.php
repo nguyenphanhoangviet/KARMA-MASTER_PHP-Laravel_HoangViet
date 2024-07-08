@@ -46,7 +46,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{-- {{ $categories->links() }} --}}
+            {{ $categories->links() }}
         </div>
     </div>
 </div>

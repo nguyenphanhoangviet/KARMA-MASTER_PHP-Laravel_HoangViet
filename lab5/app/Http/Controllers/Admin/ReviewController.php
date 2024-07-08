@@ -10,11 +10,11 @@ use App\Models\Product;
 class ReviewController extends Controller
 {
     public function index()
-{
-    $reviews = Review::all();
-    $products = Product::all(); // Lấy tất cả các sản phẩm
-    return view('admin.reviews.index', compact('reviews', 'products'));
-}
+    {
+        $reviews = Review::paginate(10); // Sử dụng paginate thay vì all hoặc get
+        $products = Product::all();
+        return view('admin.reviews.index', compact('reviews', 'products'));
+    }
 
     public function create()
     {
@@ -46,20 +46,23 @@ class ReviewController extends Controller
 
     public function edit(Review $review)
     {
-        return view('admin.reviews.edit', compact('review'));
+        $products = Product::all(); // Lấy tất cả các sản phẩm
+        return view('admin.reviews.edit', compact('review', 'products'));
     }
 
-    public function update(Request $request, Review $review)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'review' => 'required',
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:15',
+            'review' => 'required|string',
             'product_id' => 'required|exists:products,id',
         ]);
 
-        $review->update($request->all());
+        $review = Review::findOrFail($id);
+        $review->update($validatedData);
+
         return redirect()->route('admin.reviews.index')->with('success', 'Review updated successfully.');
     }
 

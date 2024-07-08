@@ -406,6 +406,10 @@ body {
 .recentCustomers table tr:hover td h4 span {
   color: var(--white);
 }
+.btn-purple:hover {
+    background-color: #5936a8;
+    color: white;
+}
 
 /* ====================== Responsive Design ========================== */
 @media (max-width: 991px) {

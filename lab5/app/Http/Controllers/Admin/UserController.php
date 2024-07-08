@@ -38,6 +38,10 @@ class UserController extends Controller
 
         return redirect()->route('admin.user.index')->with('success', 'User created successfully.');
     }
+    public function show(User $user)
+    {
+        return view('admin.user.show', compact('user'));
+    }
 
     public function edit(User $user)
     {

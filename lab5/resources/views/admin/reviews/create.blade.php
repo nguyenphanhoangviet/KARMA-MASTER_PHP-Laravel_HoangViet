@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h2>Create Review</h2>
+            <a href="{{ route('admin.reviews.index') }}" class="btn btn-purple">Back to List</a>
         </div>
         <div class="card-body">
             @if ($errors->any())
@@ -37,7 +38,7 @@
                     <label for="product_id">ProductID:</label>
                     <select class="form-control" id="product_id" name="product_id">
                         @foreach($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->id }}-{{ $product->name }}</option>
+                            <option value="{{ $product->id }}">{{ $product->id }} - {{ $product->name }}</option>
                         @endforeach
                     </select>
                 </div>

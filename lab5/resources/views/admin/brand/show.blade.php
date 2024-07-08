@@ -1,26 +1,24 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
-            <h2>Show Brand</h2>
-        </div>
-        <div class="card-body">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <p class="form-control" id="name">{{ $brand->name }}</p>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2>Show Brand</h2>
+                <a href="{{ route('admin.brands.index') }}" class="btn btn-secondary">Back</a>
             </div>
-            <div class="form-group">
-                <label for="img">Image:</label>
-                @if($brand->img)
-                    <img src="{{ asset('imgs/brands/' . $brand->img) }}" alt="{{ $brand->name }}" class="img-fluid">
-                @else
-                    <p>No image available</p>
-                @endif
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ $brand->name }}</p>
+                <p>
+                    <strong>Image:</strong>
+                    <hr>
+                    @if ($brand->img)
+                        <img src="{{ asset('imgs/brands/' . $brand->img) }}" alt="{{ $brand->name }}" width="100" height="100">
+                    @else
+                        <p>No image available</p>
+                    @endif
+                </p>
             </div>
-            <a href="{{ route('admin.brands.index') }}" class="btn btn-secondary">Back</a>
         </div>
     </div>
-</div>
 @endsection

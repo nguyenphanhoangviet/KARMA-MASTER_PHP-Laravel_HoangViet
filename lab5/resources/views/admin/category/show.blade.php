@@ -3,15 +3,14 @@
 @section('content')
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h2>Show Category</h2>
+            <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Back</a>
         </div>
         <div class="card-body">
             <div class="form-group">
-                <label for="name">Name:</label>
-                <p class="form-control" id="name">{{ $category->name }}</p>
+                <p><strong>Name:</strong> {{ $category->name }}</p>
             </div>
-            <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary">Back</a>
         </div>
     </div>
 </div>

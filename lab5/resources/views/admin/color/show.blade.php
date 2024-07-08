@@ -3,19 +3,13 @@
 @section('content')
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h2>Show Color</h2>
+            <a href="{{ route('admin.colors.index') }}" class="btn btn-secondary">Back</a>
         </div>
         <div class="card-body">
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <p class="form-control" id="name">{{ $color->name }}</p>
-            </div>
-            <div class="form-group">
-                <label for="hex_code">Hex Code:</label>
-                <p class="form-control" id="hex_code">{{ $color->hex_code }}</p>
-            </div>
-            <a href="{{ route('admin.colors.index') }}" class="btn btn-secondary">Back</a>
+            <p><strong>Name:</strong> {{ $color->name }}</p> 
+            <p><strong>Hex Code:</strong> {{ $color->hex_code }}</p> 
         </div>
     </div>
 </div>
