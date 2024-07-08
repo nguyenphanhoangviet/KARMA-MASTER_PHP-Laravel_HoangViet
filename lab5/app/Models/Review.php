@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'product_id',
+        'name',
+        'email',
+        'phone',
+        'review',
+        '_token', // Thêm dòng này
+    ];
 }

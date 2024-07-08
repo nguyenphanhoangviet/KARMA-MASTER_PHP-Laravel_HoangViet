@@ -65,6 +65,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.reviews.index') }}">
+                        <span class="icon">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </span>
+                        <span class="title">Reviews</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.orders.index') }}">
                         <span class="icon">
                             <ion-icon name="clipboard-outline"></ion-icon>

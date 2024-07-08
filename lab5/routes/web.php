@@ -13,6 +13,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RandomProductController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Admin\ReviewController;
 
 Route::get('/key-check', function () {
     $key = config('app.key');
@@ -28,7 +29,7 @@ Route::prefix('admin')->middleware(['auth', Admin::class])->name('admin.')->grou
     Route::resource('products', ProductController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('order-details', OrderDetailController::class);
-    Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
+    Route::resource('reviews', ReviewController::class);
 });
 
 Route::get('/register', function () {
