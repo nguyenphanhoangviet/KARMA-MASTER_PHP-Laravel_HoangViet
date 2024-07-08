@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h2>Review Details</h2>
-            <a href="{{ route('admin.reviews.index') }}" class="btn btn-purple">Back to List</a>
+            <a href="{{ route('admin.reviews.index') }}" class="btn btn-purple">Back</a>
         </div>
         <div class="card-body">
             <p><strong>Name:</strong> {{ $review->name }}</p>

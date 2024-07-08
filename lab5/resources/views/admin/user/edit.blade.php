@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h2>{{ __('Edit User') }}</h2>
-            <a href="{{ route('admin.user.index') }}" class="btn btn-purple">Back to List</a>
+            <a href="{{ route('admin.user.index') }}" class="btn btn-purple">Back</a>
         </div>
         <div class="card-body">
             @if ($errors->any())
