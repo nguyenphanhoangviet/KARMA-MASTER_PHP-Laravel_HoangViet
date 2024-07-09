@@ -22,6 +22,7 @@ Route::get('/key-check', function () {
 });
 
 Route::prefix('admin')->middleware(['auth', Admin::class])->name('admin.')->group(function () {
+    Route::get('dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::resource('brands', BrandController::class);
     Route::resource('colors', ColorController::class);
     Route::resource('user', UserController::class);
