@@ -54,6 +54,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="{{ asset('js/karma-master/gmaps.min.js') }}"></script>
     <script src="{{ asset('js/karma-master/main.js') }}"></script>
+    <script src="{{ asset('js/karma-master/star.js') }}"></script>
 </body>
 
 </html>

@@ -19,6 +19,7 @@ class CreateReviewsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->text('review');
+            $table->integer('star')->unsigned(); // Thêm cột star với kiểu dữ liệu int
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

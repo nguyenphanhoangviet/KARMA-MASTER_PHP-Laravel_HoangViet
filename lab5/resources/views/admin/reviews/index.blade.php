@@ -21,6 +21,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Review</th>
+                            <th>Star</th> <!-- Thêm cột Star -->
                             <th>Product ID</th>
                             <th>Actions</th>
                         </tr>
@@ -33,6 +34,7 @@
                                 <td>{{ $review->email }}</td>
                                 <td>{{ $review->phone }}</td>
                                 <td>{{ $review->review }}</td>
+                                <td>{{ $review->star }}</td> <!-- Hiển thị giá trị của Star -->
                                 <td>{{ $review->product_id }}</td>
                                 <td>
                                     <a href="{{ route('admin.reviews.show', $review->id) }}" class="btn btn-info btn-sm">Show</a>

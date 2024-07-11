@@ -51,7 +51,8 @@ Route::get('/contact', function () {
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::get('/user/dashboard', [RandomProductController::class, 'index'])->name('user.dashboard');
-Route::get('/single-product/{id}', [RandomProductController::class, 'show'])->name('single-product');
+Route::get('/single-product/{id}', [RandomProductController::class, 'showSingleProduct'])->name('single-product');
+Route::post('/single-product-review/{id}', [RandomProductController::class, 'storeSingleProduct'])->name('store-review');
 Route::get('/category', [RandomProductController::class, 'category'])->name('category');
 Route::get('/category/{id}', [RandomProductController::class, 'showCategory'])->name('category.show');
 Route::get('/search', [RandomProductController::class, 'search'])->name('products.search');

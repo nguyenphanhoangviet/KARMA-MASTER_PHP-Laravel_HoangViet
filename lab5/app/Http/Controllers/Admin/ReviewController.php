@@ -23,13 +23,15 @@ class ReviewController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
+        // dd($request->star);
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:15',
             'review' => 'required|string',
+            'star' => 'required|integer|min:1|max:5', // Validate cho cột star
         ]);
 
         $data = $request->except('_token');
@@ -57,6 +59,7 @@ class ReviewController extends Controller
             'email' => 'required|string|email|max:255',
             'phone' => 'required|string|max:15',
             'review' => 'required|string',
+            'star' => 'required|integer|min:1|max:5', // Validate cho cột star
             'product_id' => 'required|exists:products,id',
         ]);
 

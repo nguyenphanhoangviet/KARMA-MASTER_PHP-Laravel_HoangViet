@@ -15,6 +15,12 @@ class Review extends Model
         'email',
         'phone',
         'review',
+        'star',
         '_token', // Thêm dòng này
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

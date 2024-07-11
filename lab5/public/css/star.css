@@ -1,0 +1,21 @@
+/* .star :hover {
+    color: rgb(177, 177, 69);
+} */
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+    font-size: 18px; /* Đặt kích thước font */
+}
+.star-rating .fa-star {
+    color: #ddd;
+    cursor: pointer;
+}
+.star-rating .fa-star:hover,
+.star-rating .fa-star:hover ~ .fa-star {
+    color: #f39c12; /* Đặt màu vàng cho biểu tượng sao khi hover */
+}
+
+.star-rating .fa-star.selected,
+.star-rating .fa-star.selected ~ .fa-star {
+    color: #f39c12; /* Đặt màu vàng cho biểu tượng sao khi được chọn */
+}

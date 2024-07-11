@@ -42,6 +42,17 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="star">Star:</label>
+                    <div class="star-rating">
+                        <i class="fa-solid fa-star fa-2xl star" data-rating="5" style="color: #ddd;"></i>
+                        <i class="fa-solid fa-star fa-2xl star" data-rating="4" style="color: #ddd;"></i>
+                        <i class="fa-solid fa-star fa-2xl star" data-rating="3" style="color: #ddd;"></i>
+                        <i class="fa-solid fa-star fa-2xl star" data-rating="2" style="color: #ddd;"></i>
+                        <i class="fa-solid fa-star fa-2xl star" data-rating="1" style="color: #ddd;"></i>
+                    </div>
+                    <input type="hidden" name="star" id="star" value="{{ old('star', 0) }}">
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Color;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class RandomProductController extends Controller
@@ -22,41 +23,65 @@ class RandomProductController extends Controller
         return view('user.karma-master.index', compact('randomProducts1', 'randomProducts2', 'randomProducts3'));
     }
 
-    public function show($id)
+    public function showSingleProduct($id)
     {
         // Lấy sản phẩm theo ID
-        $product = Product::findOrFail($id);
+        // Lấy sản phẩm theo ID cùng với các đánh giá của nó
+        $product = Product::with('reviews')->findOrFail($id);
 
         // Trả về view và truyền dữ liệu sản phẩm
         return view('user.karma-master.single-product', compact('product'));
     }
 
+    public function storeSingleProduct(Request $request, $id)
+    {
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'number' => 'required|string|max:15',
+            'message' => 'required|string',
+            'star' => 'required|integer|min:1|max:5',
+        ]);
+
+        Review::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->number,
+            'review' => $request->message,
+            'star' => $request->star,
+            'product_id' => $id, // sử dụng $id từ route
+        ]);
+
+        return redirect()->route('single-product', ['id' => $id])->with('success', 'Review submitted successfully.');
+    }
+
     public function category(Request $request)
-{
-    $query = Product::query();
+    {
+        $query = Product::query();
 
-    if ($request->has('category')) {
-        $query->where('category_id', $request->category);
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        if ($request->has('brand')) {
+            $query->where('brand_id', $request->brand);
+        }
+
+        if ($request->has('color')) {
+            $query->where('color_id', $request->color);
+        }
+
+        $itemsPerPage = $request->input('itemsPerPage', 10); // Default to 10 if not set
+        $products = $query->paginate($itemsPerPage);
+
+        $categories = Category::all();
+        $brands = Brand::all();
+        $colors = Color::all();
+
+        // Trả về view và truyền dữ liệu sản phẩm
+        return view('user.karma-master.category', compact('categories', 'brands', 'colors', 'products', 'itemsPerPage'));
     }
-
-    if ($request->has('brand')) {
-        $query->where('brand_id', $request->brand);
-    }
-
-    if ($request->has('color')) {
-        $query->where('color_id', $request->color);
-    }
-
-    $itemsPerPage = $request->input('itemsPerPage', 10); // Default to 10 if not set
-    $products = $query->paginate($itemsPerPage);
-
-    $categories = Category::all();
-    $brands = Brand::all();
-    $colors = Color::all();
-
-    // Trả về view và truyền dữ liệu sản phẩm
-    return view('user.karma-master.category', compact('categories', 'brands', 'colors', 'products' , 'itemsPerPage'));
-}
 
     public function showCategory($id)
     {
