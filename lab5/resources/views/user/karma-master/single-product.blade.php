@@ -85,10 +85,10 @@
 					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
 					 aria-selected="false">Specification</a>
 				</li> --}}
-                {{-- <li class="nav-item">
+                <li class="nav-item">
 					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
 					 aria-selected="false">Comments</a>
-				</li> --}}
+				</li>
                 <li class="nav-item">
                     <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab"
                         aria-controls="review" aria-selected="false">Reviews</a>
@@ -170,7 +170,7 @@
 						</table>
 					</div>
 				</div> --}}
-                {{-- <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="comment_list">
@@ -225,7 +225,7 @@
 							<div class="review_box">
 								<h4>Post a comment</h4>
 								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-									<div class="col-md-12">
+									{{-- <div class="col-md-12">
 										<div class="form-group">
 											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
 										</div>
@@ -239,7 +239,7 @@
 										<div class="form-group">
 											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
 										</div>
-									</div>
+									</div> --}}
 									<div class="col-md-12">
 										<div class="form-group">
 											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
@@ -252,7 +252,7 @@
 							</div>
 						</div>
 					</div>
-				</div> --}}
+				</div>
                 <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                     <div class="row">
                         <div class="col-lg-6">

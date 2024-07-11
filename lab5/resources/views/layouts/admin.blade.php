@@ -23,7 +23,7 @@
                         <span class="icon">
                             <ion-icon name="logo-apple"></ion-icon>
                         </span>
-                        <span class="title">Brand Name</span>
+                        <span class="title">Karma-Master</span>
                     </a>
                 </li>
                 <li>
@@ -37,7 +37,7 @@
                 <li>
                     <a href="{{ route('admin.brands.index') }}">
                         <span class="icon">
-                            <ion-icon name="logo-apple"></ion-icon>
+                            <ion-icon name="sync-outline"></ion-icon>
                         </span>
                         <span class="title">Brands</span>
                     </a>
@@ -69,15 +69,23 @@
                 <li>
                     <a href="{{ route('admin.reviews.index') }}">
                         <span class="icon">
-                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                            <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
                         </span>
                         <span class="title">Reviews</span>
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.comments.index') }}">
+                        <span class="icon">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                        </span>
+                        <span class="title">Comments</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.orders.index') }}">
                         <span class="icon">
-                            <ion-icon name="clipboard-outline"></ion-icon>
+                            <ion-icon name="cart-outline"></ion-icon>
                         </span>
                         <span class="title">Orders</span>
                     </a>
@@ -85,11 +93,20 @@
                 <li>
                     <a href="{{ route('admin.order-details.index') }}">
                         <span class="icon">
-                            <ion-icon name="document-outline"></ion-icon>
+                            <ion-icon name="reader-outline"></ion-icon>
                         </span>
                         <span class="title">Order Details</span>
                     </a>
                 </li>
+                <li>
+                    <a href="">
+                        <span class="icon">
+                            <ion-icon name="log-out-outline"></ion-icon>
+                        </span>
+                        <span class="title">Logout</span>
+                    </a>
+                </li>
+
                 {{-- <li>
                     <a href="#">
                         <span class="icon">
