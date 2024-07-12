@@ -86,9 +86,9 @@
 					 aria-selected="false">Specification</a>
 				</li> --}}
                 <li class="nav-item">
-					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-					 aria-selected="false">Comments</a>
-				</li>
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                        aria-controls="contact" aria-selected="false">Comments</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab"
                         aria-controls="review" aria-selected="false">Reviews</a>
@@ -171,88 +171,85 @@
 					</div>
 				</div> --}}
                 <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="comment_list">
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="{{ asset('imgs/karma-master/product/review-1.png') }}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item reply">
-									<div class="media">
-										<div class="d-flex">
-											<img src="{{ asset('imgs/karma-master/product/review-2.png') }}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="{{ asset('imgs/karma-master/product/review-3.png') }}" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
-											<a class="reply_btn" href="#">Reply</a>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="review_box">
-								<h4>Post a comment</h4>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-									{{-- <div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-										</div>
-									</div> --}}
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
-										</div>
-									</div>
-									<div class="col-md-12 text-right">
-										<button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="comment_list">
+                                @foreach ($comments as $comment)
+                                    <div class="review_item {{ $comment->parent_id ? 'reply' : '' }}">
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <img src="{{ asset('imgs/karma-master/product/review-1.png') }}"
+                                                    alt="">
+                                            </div>
+                                            <div class="media-body">
+                                                <h4>{{ $comment->user->name }}</h4>
+                                                <h5>{{ $comment->created_at->format('d M, Y \a\t h:i a') }}</h5>
+                                                <p>{{ $comment->message }}</p>
+                                                <a class="reply_btn" href="#reply-form-{{ $comment->id }}"
+                                                    onclick="document.getElementById('reply-form-{{ $comment->id }}').style.display='block';">Reply</a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Form trả lời bình luận -->
+                                        <form id="reply-form-{{ $comment->id }}"
+                                            style="display: none; margin-left: 50px;"
+                                            action="{{ route('store-reply', ['product_id' => $product->id, 'user_id' => auth()->id(), 'comment_id' => $comment->id]) }}"
+                                            method="post">
+                                            @csrf
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 text-right">
+                                                <button type="submit" value="submit" class="btn primary-btn">Submit
+                                                    Now</button>
+                                            </div>
+                                        </form>
+
+                                        <!-- Hiển thị phản hồi -->
+                                        @if ($comment->replies->count() > 0)
+                                            @foreach ($comment->replies as $reply)
+                                                <div class="review_item reply" style="margin-left: 50px;">
+                                                    <div class="media">
+                                                        <div class="d-flex">
+                                                            <img src="{{ asset('imgs/karma-master/product/review-2.png') }}"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <h4>{{ $reply->user->name }}</h4>
+                                                            <h5>{{ $reply->created_at->format('d M, Y \a\t h:i a') }}</h5>
+                                                            <p>{{ $reply->message }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="review_box">
+                                <h4>Post a comment</h4>
+                                <form class="row contact_form"
+                                    action="{{ route('store-comment', ['product_id' => $product->id, 'user_id' => auth()->id()]) }}"
+                                    method="post" id="contactForm" novalidate="novalidate">
+                                    @csrf
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
                     <div class="row">
                         <div class="col-lg-6">
@@ -325,7 +322,7 @@
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
 										commodo</p>
 								</div> --}}
-								{{-- <div class="review_item">
+                                {{-- <div class="review_item">
 									<div class="media">
 										<div class="d-flex">
 											<img src="img/product/review-3.png" alt="">

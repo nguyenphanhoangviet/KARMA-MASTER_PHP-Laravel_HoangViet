@@ -54,8 +54,13 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 
 Route::get('/user/dashboard', [RandomProductController::class, 'index'])->name('user.dashboard');
 Route::get('/single-product/{id}', [RandomProductController::class, 'showSingleProduct'])->name('single-product');
-Route::post('/single-product-review/{id}', [RandomProductController::class, 'storeSingleProduct'])->name('store-review');
+Route::post('/single-product-review/{id}', [RandomProductController::class, 'storeSingleProductReview'])->name('store-review');
 Route::get('/category', [RandomProductController::class, 'category'])->name('category');
 Route::get('/category/{id}', [RandomProductController::class, 'showCategory'])->name('category.show');
 Route::get('/search', [RandomProductController::class, 'search'])->name('products.search');
+// Route để thêm comment mới
+Route::post('/single-product-comment/{product_id}/{user_id}', [RandomProductController::class, 'storeSingleProductComment'])->name('store-comment');
+
+// Route để trả lời comment
+Route::post('/single-product-reply/{product_id}/{user_id}/{comment_id}', [RandomProductController::class, 'storeSingleProductReply'])->name('store-reply');
 

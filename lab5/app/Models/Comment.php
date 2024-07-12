@@ -10,9 +10,10 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'product_id',
-        'message',
+        'user_id', 
+        'product_id', 
+        'message', 
+        'parent_id'
     ];
 
     public function user()
@@ -24,4 +25,10 @@ class Comment extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
 }
+

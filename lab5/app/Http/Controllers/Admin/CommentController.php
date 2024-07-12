@@ -38,6 +38,7 @@ class CommentController extends Controller
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'message' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id'
         ]);
 
         Comment::create($request->all());
@@ -50,7 +51,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        $comment = Comment::with(['user', 'product'])->findOrFail($id);
+        $comment = Comment::with(['user', 'product', 'replies'])->findOrFail($id);
         return view('admin.comments.show', compact('comment'));
     }
 
@@ -74,6 +75,7 @@ class CommentController extends Controller
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'message' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id'
         ]);
 
         $comment = Comment::findOrFail($id);

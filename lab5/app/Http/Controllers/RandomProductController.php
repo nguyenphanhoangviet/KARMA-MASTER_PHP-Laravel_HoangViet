@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Review;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class RandomProductController extends Controller
@@ -25,15 +26,15 @@ class RandomProductController extends Controller
 
     public function showSingleProduct($id)
     {
-        // Lấy sản phẩm theo ID
         // Lấy sản phẩm theo ID cùng với các đánh giá của nó
         $product = Product::with('reviews')->findOrFail($id);
+        $comments = $product->comments()->whereNull('parent_id')->with('replies')->get();
 
         // Trả về view và truyền dữ liệu sản phẩm
-        return view('user.karma-master.single-product', compact('product'));
+        return view('user.karma-master.single-product', compact('product', 'comments'));
     }
 
-    public function storeSingleProduct(Request $request, $id)
+    public function storeSingleProductReview(Request $request, $id)
     {
 
         $request->validate([
@@ -81,6 +82,39 @@ class RandomProductController extends Controller
 
         // Trả về view và truyền dữ liệu sản phẩm
         return view('user.karma-master.category', compact('categories', 'brands', 'colors', 'products', 'itemsPerPage'));
+    }
+
+    public function storeSingleProductComment(Request $request, $product_id, $user_id)
+    {
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        Comment::create([
+            'user_id' => $user_id,
+            'product_id' => $product_id,
+            'message' => $request->message,
+            'parent_id' => null, // parent_id sẽ là null nếu đây là comment mới
+        ]);
+
+        return redirect()->back()->with('success', 'Comment submitted successfully.');
+    }
+
+    public function storeSingleProductReply(Request $request, $product_id, $user_id, $comment_id)
+    {
+        // dd($comment_id);
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        Comment::create([
+            'user_id' => $user_id,
+            'product_id' => $product_id,
+            'message' => $request->message,
+            'parent_id' => $comment_id, // parent_id là id của comment gốc
+        ]);
+
+        return redirect()->back()->with('success', 'Reply submitted successfully.');
     }
 
     public function showCategory($id)
