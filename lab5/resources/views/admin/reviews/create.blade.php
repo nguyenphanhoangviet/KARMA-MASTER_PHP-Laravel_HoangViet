@@ -19,14 +19,6 @@
             <form action="{{ route('admin.reviews.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="name" name="name">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email">
-                </div>
-                <div class="form-group">
                     <label for="phone">Phone:</label>
                     <input type="text" class="form-control" id="phone" name="phone">
                 </div>
@@ -39,6 +31,14 @@
                     <select class="form-control" id="product_id" name="product_id">
                         @foreach($products as $product)
                             <option value="{{ $product->id }}">{{ $product->id }} - {{ $product->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user_id">UserID:</label>
+                    <select class="form-control" id="user_id" name="user_id">
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->id }} - {{ $user->name }} - {{$user->email}}</option>
                         @endforeach
                     </select>
                 </div>

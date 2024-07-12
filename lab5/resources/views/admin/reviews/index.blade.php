@@ -30,8 +30,8 @@
                         @foreach ($reviews as $review)
                             <tr>
                                 <td>{{ $review->id }}</td>
-                                <td>{{ $review->name }}</td>
-                                <td>{{ $review->email }}</td>
+                                <td>{{ $review->user->name }}</td>
+                                <td>{{ $review->user->email }}</td>
                                 <td>{{ $review->phone }}</td>
                                 <td>{{ $review->review }}</td>
                                 <td>{{ $review->star }}</td> <!-- Hiển thị giá trị của Star -->

@@ -20,14 +20,6 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $review->name }}">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ $review->email }}">
-                </div>
-                <div class="form-group">
                     <label for="phone">Phone:</label>
                     <input type="text" class="form-control" id="phone" name="phone" value="{{ $review->phone }}">
                 </div>
@@ -38,8 +30,18 @@
                 <div class="form-group">
                     <label for="product_id">ProductID:</label>
                     <select class="form-control" id="product_id" name="product_id">
-                        @foreach($products as $product)
-                            <option value="{{ $product->id }}" @if($product->id == $review->product_id) selected @endif>{{ $product->id }} - {{ $product->name }}</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}" @if ($product->id == $review->product_id) selected @endif>
+                                {{ $product->id }} - {{ $product->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user_id">UserID:</label>
+                    <select class="form-control" id="user_id" name="user_id">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" @if ($user->id == $review->user_id) selected @endif>
+                                {{ $user->id }} - {{ $user->name }} - {{$user->email}}</option>
                         @endforeach
                     </select>
                 </div>

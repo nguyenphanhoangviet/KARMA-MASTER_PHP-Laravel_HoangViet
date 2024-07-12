@@ -292,7 +292,7 @@
                                                 <img src="{{ asset('imgs/user.png') }}" alt="user">
                                             </div> --}}
                                             <div class="media-body">
-                                                <h4>{{ $review->name }}</h4>
+                                                <h4>{{ $review->user->name }}</h4>
                                                 @for ($i = 0; $i < $review->star; $i++)
                                                     <i class="fa fa-star"></i>
                                                 @endfor
@@ -354,36 +354,10 @@
                                     <li><a href="#"><i class="fa fa-star"></i></a></li>
                                 </ul>
                                 <p>Outstanding</p>
-                                <form class="row contact_form" action="{{ route('store-review', $product->id) }}"
+                                <form class="row contact_form"
+                                    action="{{ route('store-review', ['product_id' => $product->id, 'user_id' => auth()->id()]) }}"
                                     method="post" id="contactForm" novalidate="novalidate">
                                     @csrf
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Your Full name" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Your Full name'">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Email Address" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Email Address'">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="number" name="number"
-                                                placeholder="Phone Number" onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Phone Number'">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="message" id="message" rows="1" placeholder="Review"
-                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea></textarea>
-                                        </div>
-                                    </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="star">Star:</label>
@@ -403,8 +377,21 @@
                                                 value="{{ old('star', 0) }}">
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="phone" name="phone"
+                                                placeholder="Phone Number" onfocus="this.placeholder = ''"
+                                                onblur="this.placeholder = 'Phone Number'">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea class="form-control" name="review" id="review" rows="1" placeholder="Review"
+                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Review'"></textarea>
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 text-right">
-                                        <button type="submit" value="submit" class="primary-btn">Submit Now</button>
+                                        <button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
                                     </div>
                                 </form>
                             </div>

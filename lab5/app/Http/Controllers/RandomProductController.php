@@ -34,27 +34,23 @@ class RandomProductController extends Controller
         return view('user.karma-master.single-product', compact('product', 'comments'));
     }
 
-    public function storeSingleProductReview(Request $request, $id)
+    public function storeSingleProductReview(Request $request, $product_id, $user_id)
     {
-
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'number' => 'required|string|max:15',
-            'message' => 'required|string',
+            'phone' => 'required|string|max:15',
+            'review' => 'required|string',
             'star' => 'required|integer|min:1|max:5',
         ]);
 
         Review::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->number,
-            'review' => $request->message,
+            'phone' => $request->phone,
+            'review' => $request->review,
             'star' => $request->star,
-            'product_id' => $id, // sử dụng $id từ route
+            'product_id' => $product_id,
+            'user_id' => $user_id,
         ]);
 
-        return redirect()->route('single-product', ['id' => $id])->with('success', 'Review submitted successfully.');
+        return redirect()->route('single-product', ['id' => $product_id])->with('success', 'Review submitted successfully.');
     }
 
     public function category(Request $request)

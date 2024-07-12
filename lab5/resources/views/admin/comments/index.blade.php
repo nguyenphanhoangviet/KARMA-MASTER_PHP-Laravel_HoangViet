@@ -18,6 +18,7 @@
                         <tr>
                             <th>ID</th>
                             <th>User</th>
+                            <th>Email</th>
                             <th>Product</th>
                             <th>Message</th>
                             <th>Actions</th>
@@ -28,6 +29,7 @@
                             <tr>
                                 <td>{{ $comment->id }}</td>
                                 <td>{{ $comment->user->name }}</td>
+                                <td>{{ $comment->user->email }}</td>
                                 <td>{{ $comment->product->name }}</td>
                                 <td>{{ $comment->message }}</td>
                                 <td>

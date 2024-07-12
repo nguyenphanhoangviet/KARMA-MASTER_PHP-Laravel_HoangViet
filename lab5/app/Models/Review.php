@@ -11,16 +11,19 @@ class Review extends Model
 
     protected $fillable = [
         'product_id',
-        'name',
-        'email',
+        'user_id', // Thêm dòng này
         'phone',
         'review',
         'star',
-        '_token', // Thêm dòng này
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

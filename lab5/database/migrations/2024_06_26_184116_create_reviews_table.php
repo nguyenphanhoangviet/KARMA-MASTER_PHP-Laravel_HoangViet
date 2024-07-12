@@ -15,12 +15,11 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
             $table->string('phone');
             $table->text('review');
             $table->integer('star')->unsigned(); // Thêm cột star với kiểu dữ liệu int
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->after('product_id');
             $table->timestamps();
         });
     }
