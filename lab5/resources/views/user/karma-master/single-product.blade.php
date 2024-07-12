@@ -190,6 +190,28 @@
                                             </div>
                                         </div>
 
+                                        <!-- Hiển thị phản hồi -->
+                                        @if ($comment->replies->count() > 0)
+                                            @foreach ($comment->replies as $reply)
+                                                <div class="review_item reply" style="margin-left: 50px;">
+                                                    <div class="media">
+                                                        <div class="d-flex">
+                                                            <img src="{{ asset('imgs/karma-master/product/review-2.png') }}"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <span style="color: rgb(126, 105, 105)">Đã phản hồi: {{ $comment->user->name }}</span>
+                                                            <h4>{{ $reply->user->name }}</h4>
+                                                            <h5>{{ $reply->created_at->format('d M, Y \a\t h:i a') }}</h5>
+                                                            <p>{{ $reply->message }}</p>
+                                                            <a class="reply_btn" href="#reply-form-{{ $comment->id }}"
+                                                                onclick="document.getElementById('reply-form-{{ $comment->id }}').style.display='block';">Reply</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+
                                         <!-- Form trả lời bình luận -->
                                         <form id="reply-form-{{ $comment->id }}"
                                             style="display: none; margin-left: 50px;"
@@ -206,25 +228,7 @@
                                                     Now</button>
                                             </div>
                                         </form>
-
-                                        <!-- Hiển thị phản hồi -->
-                                        @if ($comment->replies->count() > 0)
-                                            @foreach ($comment->replies as $reply)
-                                                <div class="review_item reply" style="margin-left: 50px;">
-                                                    <div class="media">
-                                                        <div class="d-flex">
-                                                            <img src="{{ asset('imgs/karma-master/product/review-2.png') }}"
-                                                                alt="">
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h4>{{ $reply->user->name }}</h4>
-                                                            <h5>{{ $reply->created_at->format('d M, Y \a\t h:i a') }}</h5>
-                                                            <p>{{ $reply->message }}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
+                                        
                                     </div>
                                 @endforeach
                             </div>
