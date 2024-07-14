@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable(); // Mô tả sản phẩm
             $table->decimal('price', 15, 3); // Giá của sản phẩm với 3 chữ số thập phân
             $table->string('img')->nullable(); // Hình ảnh sản phẩm
+            $table->integer('stock')->default(0); // Thêm cột stock với giá trị mặc định là 0
             $table->unsignedBigInteger('category_id'); // Khóa ngoại liên kết với bảng categories
             $table->unsignedBigInteger('color_id')->nullable(); // Khóa ngoại liên kết với bảng colors
             $table->unsignedBigInteger('brand_id'); // Khóa ngoại liên kết với bảng brands

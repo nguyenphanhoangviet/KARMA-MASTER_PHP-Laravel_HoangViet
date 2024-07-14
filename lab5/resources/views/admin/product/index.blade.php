@@ -32,6 +32,7 @@
                                     <th>Description</th>
                                     <th>Price</th>
                                     <th>Image</th>
+                                    <th>Stock</th>
                                     <th>Category</th>
                                     <th>Color</th>
                                     <th>Brand</th>
@@ -45,6 +46,7 @@
                                     <td>{{ implode(' ', array_slice(explode(' ', $product->description), 0, 5)) }}...</td>
                                     <td>{{ number_format($product->price, 0) }}đ</td>
                                     <td><img src="{{ asset('imgs/products/' . $product->img) }}" alt="{{ $product->name }}" class="img-fluid" width="50"></td>
+                                    <td>{{ $product->stock }}</td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{{ $product->color->name ?? 'None' }}</td>
                                     <td>{{ $product->brand->name }}</td>

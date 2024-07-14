@@ -37,4 +37,9 @@ class Product extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'product_size');
+    }
 }

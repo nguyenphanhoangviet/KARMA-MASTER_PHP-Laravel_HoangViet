@@ -49,6 +49,12 @@
                             <li><a href="#"><span>Availibility</span> :
                                     {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}</a></li>
                         </ul>
+                        <span>
+                            Size:
+                            @foreach ($product->sizes as $size)
+                                {{ $size->name }}
+                            @endforeach
+                        </span>
                         <p>{{ $product->description }}</p>
                         <div class="product_count">
                             <label for="qty">Quantity:</label>
@@ -200,7 +206,8 @@
                                                                 alt="">
                                                         </div>
                                                         <div class="media-body">
-                                                            <span style="color: rgb(126, 105, 105)">Đã phản hồi: {{ $comment->user->name }}</span>
+                                                            <span style="color: rgb(126, 105, 105)">Đã phản hồi:
+                                                                {{ $comment->user->name }}</span>
                                                             <h4>{{ $reply->user->name }}</h4>
                                                             <h5>{{ $reply->created_at->format('d M, Y \a\t h:i a') }}</h5>
                                                             <p>{{ $reply->message }}</p>
@@ -228,7 +235,7 @@
                                                     Now</button>
                                             </div>
                                         </form>
-                                        
+
                                     </div>
                                 @endforeach
                             </div>

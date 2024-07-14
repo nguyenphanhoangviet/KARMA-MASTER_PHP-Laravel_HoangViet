@@ -83,6 +83,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.sizes.index') }}">
+                        <span class="icon">
+                            <ion-icon name="expand-outline"></ion-icon>
+                        </span>
+                        <span class="title">Size</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.orders.index') }}">
                         <span class="icon">
                             <ion-icon name="cart-outline"></ion-icon>

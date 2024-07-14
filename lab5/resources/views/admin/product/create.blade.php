@@ -29,11 +29,11 @@
                 </div>
                 <div class="form-group">
                     <label for="price">Price:</label>
-                    <input type="number" class="form-control" id="price" name="price" step="0.001" value="{{ old('price') }}">
+                    <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ old('price') }}">
                 </div>
                 <div class="form-group">
                     <label for="img">Image:</label>
-                    <input type="file" class="form-control-file" id="img" name="img">
+                    <input type="file" class="form-control" id="img" name="img">
                 </div>
                 <div class="form-group">
                     <label for="category_id">Category:</label>
@@ -56,6 +56,18 @@
                     <select class="form-control" id="brand_id" name="brand_id">
                         @foreach($brands as $brand)
                             <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock:</label>
+                    <input type="number" class="form-control" id="stock" name="stock" value="{{ old('stock') }}">
+                </div>
+                <div class="form-group">
+                    <label for="sizes">Sizes:</label>
+                    <select class="form-control" id="sizes" name="sizes[]" multiple>
+                        @foreach($sizes as $size)
+                            <option value="{{ $size->id }}">{{ $size->name }}</option>
                         @endforeach
                     </select>
                 </div>

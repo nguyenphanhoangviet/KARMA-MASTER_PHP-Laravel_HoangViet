@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\SizeController;
 
 Route::get('/key-check', function () {
     $key = config('app.key');
@@ -33,6 +34,7 @@ Route::prefix('admin')->middleware(['auth', Admin::class])->name('admin.')->grou
     Route::resource('order-details', OrderDetailController::class);
     Route::resource('reviews', ReviewController::class);
     Route::resource('comments', CommentController::class);
+    Route::resource('sizes', SizeController::class);
 });
 
 Route::get('/register', function () {

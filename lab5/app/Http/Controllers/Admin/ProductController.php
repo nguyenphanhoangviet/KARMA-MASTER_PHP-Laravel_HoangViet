@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Brand;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -22,7 +23,8 @@ class ProductController extends Controller
         $categories = Category::all();
         $colors = Color::all();
         $brands = Brand::all();
-        return view('admin.product.create', compact('categories', 'colors', 'brands'));
+        $sizes = Size::all();
+        return view('admin.product.create', compact('categories', 'colors', 'brands', 'sizes'));
     }
 
     public function store(Request $request)
@@ -35,9 +37,12 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'color_id' => 'nullable|exists:colors,id',
             'brand_id' => 'required|exists:brands,id',
+            'stock' => 'required|integer',
+            'sizes' => 'nullable|array',
+            'sizes.*' => 'exists:sizes,id'
         ]);
 
-        $product = new Product($request->all());
+        $product = new Product($request->except('sizes'));
 
         if ($request->hasFile('img')) {
             $imageName = time() . '.' . $request->img->extension();
@@ -46,6 +51,10 @@ class ProductController extends Controller
         }
 
         $product->save();
+
+        if ($request->has('sizes')) {
+            $product->sizes()->sync($request->sizes);
+        }
 
         return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
@@ -60,7 +69,8 @@ class ProductController extends Controller
         $categories = Category::all();
         $colors = Color::all();
         $brands = Brand::all();
-        return view('admin.product.edit', compact('product', 'categories', 'colors', 'brands'));
+        $sizes = Size::all();
+        return view('admin.product.edit', compact('product', 'categories', 'colors', 'brands', 'sizes'));
     }
 
     public function update(Request $request, Product $product)
@@ -73,9 +83,12 @@ class ProductController extends Controller
             'category_id' => 'required|exists:categories,id',
             'color_id' => 'nullable|exists:colors,id',
             'brand_id' => 'required|exists:brands,id',
+            'stock' => 'required|integer',
+            'sizes' => 'nullable|array',
+            'sizes.*' => 'exists:sizes,id'
         ]);
 
-        $data = $request->all();
+        $data = $request->except('sizes');
 
         if ($request->hasFile('img')) {
             if ($product->img && file_exists(public_path('imgs/products/' . $product->img))) {
@@ -90,6 +103,10 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+
+        if ($request->has('sizes')) {
+            $product->sizes()->sync($request->sizes);
+        }
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
