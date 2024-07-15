@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Password;
 use App\Mail\RegistrationSuccess;
 use Illuminate\Support\Facades\Mail;
 
@@ -19,8 +20,16 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8) // Đặt chiều dài tối thiểu là 8 ký tự
+                    ->mixedCase() // Yêu cầu mật khẩu bao gồm cả chữ hoa và chữ thường
+                    ->letters() // Yêu cầu mật khẩu bao gồm ít nhất một chữ cái
+                    ->numbers() // Yêu cầu mật khẩu bao gồm ít nhất một số
+                    ->symbols(), // Yêu cầu mật khẩu bao gồm ít nhất một ký tự đặc biệt
+            ],
         ]);
 
         $user = User::create([

@@ -33,6 +33,7 @@
                                     <th>Price</th>
                                     <th>Image</th>
                                     <th>Stock</th>
+                                    <th>Size</th>
                                     <th>Category</th>
                                     <th>Color</th>
                                     <th>Brand</th>
@@ -47,6 +48,15 @@
                                     <td>{{ number_format($product->price, 0) }}đ</td>
                                     <td><img src="{{ asset('imgs/products/' . $product->img) }}" alt="{{ $product->name }}" class="img-fluid" width="50"></td>
                                     <td>{{ $product->stock }}</td>
+                                    <td>
+                                        @if($product->sizes->isNotEmpty())
+                                            @foreach($product->sizes as $size)
+                                                {{ $size->name }}@if(!$loop->last), @endif
+                                            @endforeach
+                                        @else
+                                            None
+                                        @endif
+                                    </td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{{ $product->color->name ?? 'None' }}</td>
                                     <td>{{ $product->brand->name }}</td>
