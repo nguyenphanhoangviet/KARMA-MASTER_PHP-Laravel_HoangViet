@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // thêm cột name
-            $table->float('size_number', 8, 2)->change(); // thêm cột size_number
             $table->timestamps();
         });
     }

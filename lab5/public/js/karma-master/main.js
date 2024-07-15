@@ -575,3 +575,16 @@ $(document).ready(function () {
         });
     }
 });
+
+//chỉnh màu btn size
+
+function setActive(button) {
+    // Get all buttons with class "btn-size"
+    const buttons = document.querySelectorAll('.btn-size');
+    
+    // Remove the "active" class from all buttons
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    // Add the "active" class to the clicked button
+    button.classList.add('active');
+}

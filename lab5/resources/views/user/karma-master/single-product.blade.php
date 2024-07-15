@@ -51,8 +51,9 @@
                         </ul>
                         <span>
                             Size:
+                            <hr>
                             @foreach ($product->sizes as $size)
-                                {{ $size->name }}
+                                <button class="btn btn-size" onclick="setActive(this)">{{ $size->name }}</button>
                             @endforeach
                         </span>
                         <p>{{ $product->description }}</p>
