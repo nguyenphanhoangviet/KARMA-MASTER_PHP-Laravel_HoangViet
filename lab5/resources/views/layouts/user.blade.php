@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Karma Shop</title>
     <link rel="stylesheet" href="{{ asset('css/user/linearicons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user/font-awesome.min.css') }}">

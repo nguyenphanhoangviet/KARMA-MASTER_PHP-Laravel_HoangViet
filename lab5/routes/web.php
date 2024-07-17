@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\SizeController;
+use App\Http\Controllers\CartController;
 
 Route::get('/key-check', function () {
     $key = config('app.key');
@@ -66,3 +67,7 @@ Route::post('/single-product-comment/{product_id}/{user_id}', [RandomProductCont
 // Route để trả lời comment
 Route::post('/single-product-reply/{product_id}/{user_id}/{comment_id}', [RandomProductController::class, 'storeSingleProductReply'])->name('store-reply');
 
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/increment/{productId}', [CartController::class, 'incrementQuantity'])->name('cart.increment');
+Route::post('/cart/decrement/{productId}', [CartController::class, 'decrementQuantity'])->name('cart.decrement');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');

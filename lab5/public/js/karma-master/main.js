@@ -588,3 +588,50 @@ function setActive(button) {
     // Add the "active" class to the clicked button
     button.classList.add('active');
 }
+
+//Cart
+
+function updateQuantity() {
+    var quantity = document.getElementById('sst').value;
+    document.getElementById('product-quantity').value = quantity;
+}
+
+function incrementQuantity(productId) {
+    var qtyInput = document.getElementById('sst');
+    var quantity = parseInt(qtyInput.value);
+
+    // Cập nhật số lượng trên giao diện
+    qtyInput.value = quantity + 1;
+
+    // Gửi yêu cầu cập nhật đến máy chủ
+    fetch(`/cart/increment/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({})
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function decrementQuantity(productId) {
+    var qtyInput = document.getElementById('sst');
+    var quantity = parseInt(qtyInput.value);
+
+    if (quantity > 1) {
+        // Cập nhật số lượng trên giao diện
+        qtyInput.value = quantity - 1;
+
+        // Gửi yêu cầu cập nhật đến máy chủ
+        fetch(`/cart/decrement/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({})
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
