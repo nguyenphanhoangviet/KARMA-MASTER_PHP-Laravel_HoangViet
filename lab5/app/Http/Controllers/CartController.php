@@ -14,9 +14,10 @@ class CartController extends Controller
      */
     public function addToCart(Request $request)
     {
-        dd($request);
+        // Lấy dữ liệu từ request
         $productId = $request->input('product_id');
         $quantity = $request->input('quantity', 1);
+        $size = $request->input('size');
 
         // Giả sử bạn có mô hình Product
         $product = Product::find($productId);
@@ -25,22 +26,38 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Product not found');
         }
 
+        if (!$size) {
+            return redirect()->route('single-product', ['id' => $productId])->with('error', 'Size is required');
+        }
+
         $cart = Session::get('cart', []);
 
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] += $quantity;
+        $cartItemKey = $productId . '-' . $size; // Tạo key duy nhất cho mỗi sản phẩm với kích thước
+
+        if (isset($cart[$cartItemKey])) {
+            $cart[$cartItemKey]['quantity'] += $quantity;
         } else {
-            $cart[$productId] = [
+            $cart[$cartItemKey] = [
                 "name" => $product->name,
                 "quantity" => $quantity,
                 "price" => $product->price,
-                "img" => $product->img
+                "img" => $product->img,
+                "size" => $size,
+                "product_id" => $productId,
             ];
         }
 
         Session::put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        // Trả về view giỏ hàng sau khi thêm sản phẩm
+        return redirect()->route('cart.index')->with('success', 'Product added to cart successfully!');
+    }
+
+    public function index()
+    {
+        $cart = Session::get('cart', []);
+        // dd($cart);
+        return view('user.karma-master.cart', compact('cart'));
     }
 
     public function incrementQuantity(Request $request, $productId)
@@ -49,7 +66,7 @@ class CartController extends Controller
             Log::info('Increment Quantity called for product: ' . $productId);
 
             $cart = Session::get('cart', []);
-            
+
             if (isset($cart[$productId])) {
                 $cart[$productId]['quantity']++;
                 Session::put('cart', $cart);
@@ -71,7 +88,7 @@ class CartController extends Controller
             Log::info('Decrement Quantity called for product: ' . $productId);
 
             $cart = Session::get('cart', []);
-            
+
             if (isset($cart[$productId]) && $cart[$productId]['quantity'] > 1) {
                 $cart[$productId]['quantity']--;
                 Session::put('cart', $cart);
@@ -85,12 +102,6 @@ class CartController extends Controller
             Log::error('Error decrementing quantity for product: ' . $productId . ' - ' . $e->getMessage());
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
-    }
-
-    public function index()
-    {
-        $cart = Session::get('cart', []);
-        return view('cart.index', compact('cart'));
     }
     // /**
     //  * Show the form for creating a new resource.

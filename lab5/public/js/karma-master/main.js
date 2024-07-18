@@ -576,16 +576,20 @@ $(document).ready(function () {
     }
 });
 
-//chỉnh màu btn size
+//Size
 
 function setActive(button) {
-    // Get all buttons with class "btn-size"
-    const buttons = document.querySelectorAll('.btn-size');
+    // Lấy ra tên size từ nút button được chọn
+    var sizeName = button.innerText.trim();
     
-    // Remove the "active" class from all buttons
-    buttons.forEach(btn => btn.classList.remove('active'));
+    // Đặt giá trị của size vào input hidden
+    document.getElementById('selected-size').value = sizeName;
     
-    // Add the "active" class to the clicked button
+    // Đặt lại lớp active cho các nút button size (nếu cần)
+    var btns = document.getElementsByClassName('btn-size');
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].classList.remove('active');
+    }
     button.classList.add('active');
 }
 
