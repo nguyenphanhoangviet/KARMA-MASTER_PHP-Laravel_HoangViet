@@ -64,7 +64,7 @@
                             <button onclick="decrementQuantity({{ $product->id }})" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                         </div>
                         <div class="card_area d-flex align-items-center">
-                            <form action="{{ route('cart.add') }}" method="POST" onsubmit="updateQuantity() ">
+                            <form action="{{ route('cart.add') }}" method="POST" onsubmit="return validateForm()">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <input type="hidden" name="quantity" value="1" id="product-quantity">

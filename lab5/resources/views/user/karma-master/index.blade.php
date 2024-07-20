@@ -210,18 +210,18 @@
                                         @endif
                                     </div>
                                     <div class="prd-bottom">
-                                        <a href="{{ route('single-product', $product->id) }}" class="social-info">
+                                        {{-- <a href="{{ route('single-product', $product->id) }}" class="social-info">
                                             <span class="ti-bag"></span>
                                             <p class="hover-text">add to bag</p>
-                                        </a>
+                                        </a> --}}
                                         <a href="#" class="social-info">
                                             <span class="lnr lnr-heart"></span>
                                             <p class="hover-text">Wishlist</p>
                                         </a>
-                                        <a href="#" class="social-info">
+                                        {{-- <a href="#" class="social-info">
                                             <span class="lnr lnr-sync"></span>
                                             <p class="hover-text">compare</p>
-                                        </a>
+                                        </a> --}}
                                         <a href="{{ route('single-product', $product->id) }}" class="social-info">
                                             <span class="lnr lnr-move"></span>
                                             <p class="hover-text">view more</p>
@@ -495,18 +495,24 @@
                                         @endif
                                     </div>
                                     <div class="prd-bottom">
-                                        <a href="{{ route('single-product', $product->id) }}" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a>
+                                        {{-- <form action="{{ route('cart.add') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <input type="hidden" name="quantity" value="1">
+                                            <input type="hidden" name="size" value="default_size"> <!-- Sửa 'default_size' thành giá trị size mong muốn nếu có -->
+                                            <button type="submit" class="social-info">
+                                                <span class="ti-bag"></span>
+                                                <p class="hover-text">add to bag</p>
+                                            </button>
+                                        </form> --}}
                                         <a href="#" class="social-info">
                                             <span class="lnr lnr-heart"></span>
                                             <p class="hover-text">Wishlist</p>
                                         </a>
-                                        <a href="#" class="social-info">
+                                        {{-- <a href="#" class="social-info">
                                             <span class="lnr lnr-sync"></span>
                                             <p class="hover-text">compare</p>
-                                        </a>
+                                        </a> --}}
                                         <a href="{{ route('single-product', $product->id) }}" class="social-info">
                                             <span class="lnr lnr-move"></span>
                                             <p class="hover-text">view more</p>

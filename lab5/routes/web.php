@@ -16,7 +16,8 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\SizeController;
-use App\Http\Controllers\CartController;
+use App\Http\Controllers\cart\CartController;
+use App\Http\Controllers\cart\CartItemController;
 
 Route::get('/key-check', function () {
     $key = config('app.key');
@@ -24,6 +25,7 @@ Route::get('/key-check', function () {
     return response()->json(['key' => $key, 'cipher' => $cipher]);
 });
 
+// Admin
 Route::prefix('admin')->middleware(['auth', Admin::class])->name('admin.')->group(function () {
     Route::get('dashboard', [UserController::class, 'index'])->name('dashboard');
     Route::resource('brands', BrandController::class);
@@ -56,6 +58,10 @@ Route::get('/contact', function () {
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 Route::get('/user/dashboard', [RandomProductController::class, 'index'])->name('user.dashboard');
+
+
+
+
 Route::get('/single-product/{id}', [RandomProductController::class, 'showSingleProduct'])->name('single-product');
 Route::post('/single-product-review/{product_id}/{user_id}', [RandomProductController::class, 'storeSingleProductReview'])->name('store-review');
 Route::get('/category', [RandomProductController::class, 'category'])->name('category');
@@ -67,7 +73,11 @@ Route::post('/single-product-comment/{product_id}/{user_id}', [RandomProductCont
 // Route để trả lời comment
 Route::post('/single-product-reply/{product_id}/{user_id}/{comment_id}', [RandomProductController::class, 'storeSingleProductReply'])->name('store-reply');
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/increment/{productId}', [CartController::class, 'incrementQuantity'])->name('cart.increment');
-Route::post('/cart/decrement/{productId}', [CartController::class, 'decrementQuantity'])->name('cart.decrement');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+
+// Cart
+Route::prefix('cart')->group(function () {
+    Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+});

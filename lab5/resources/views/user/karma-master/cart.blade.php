@@ -38,11 +38,6 @@
                         </thead>
                         <tbody>
                             @foreach ($cart as $item)
-                                {{-- @if (!isset($item['size']) || empty($item['size']))
-                                    <script>
-                                        window.location.href = "{{ route('single-product', ['id' => $item['product_id']]) }}";
-                                    </script>
-                                @endif --}}
                                 <tr>
                                     <td>
                                         <p>{{ $item['name'] }}</p>
@@ -52,31 +47,48 @@
                                             style="width: 50px; height: 50px;">
                                     </td>
                                     <td>
-                                        <p>{{ isset($item['size']) && !empty($item['size']) ? $item['size'] : 'không có' }}</p>
+                                        <p>{{ isset($item['size']) && !empty($item['size']) ? $item['size'] : 'N/A' }}</p>
                                     </td>
                                     <td>
                                         <h5>{{ number_format($item['price'], 0) }} VND</h5>
                                     </td>
                                     <td>
                                         <div class="product_count">
-                                            <input type="text" name="qty" id="sst" maxlength="12"
-                                                value="{{ $item['quantity'] }}" title="Quantity:" class="input-text qty">
-                                            <button class="increase items-count" type="button"><i
-                                                    class="lnr lnr-chevron-up"></i></button>
-                                            <button class="reduced items-count" type="button"><i
-                                                    class="lnr lnr-chevron-down"></i></button>
+                                            <form action="{{ route('cart.update') }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $item['product_id'] }}">
+                                                <input type="hidden" name="size" value="{{ $item['size'] }}">
+                                                <input type="hidden" name="quantity" value="{{ $item['quantity'] - 1 }}">
+                                                <button class="reduced items-count" type="submit"><i class="lnr lnr-chevron-down"></i></button>
+                                            </form>
+                                            <input type="text" name="qty" id="sst" maxlength="12" value="{{ $item['quantity'] }}" title="Quantity:" class="input-text qty" readonly>
+                                            <form action="{{ route('cart.update') }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $item['product_id'] }}">
+                                                <input type="hidden" name="size" value="{{ $item['size'] }}">
+                                                <input type="hidden" name="quantity" value="{{ $item['quantity'] + 1 }}">
+                                                <button class="increase items-count" type="submit"><i class="lnr lnr-chevron-up"></i></button>
+                                            </form>
                                         </div>
                                     </td>
                                     <td>
                                         <h5>{{ number_format($item['price'] * $item['quantity'], 0) }} VND</h5>
                                     </td>
+                                    <td>
+                                        <form action="{{ route('cart.remove') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $item['product_id'] }}">
+                                            <input type="hidden" name="size" value="{{ $item['size'] }}">
+                                            <button type="submit" class="btn btn-danger">Remove</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
-                            <tr class="bottom_button">
+                            {{-- <tr class="bottom_button">
                                 <td colspan="6">
                                     <a class="gray_btn" href="#">Update Cart</a>
                                 </td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <td colspan="4"></td>
                                 <td>
