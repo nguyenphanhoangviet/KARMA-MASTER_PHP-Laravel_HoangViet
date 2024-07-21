@@ -101,6 +101,7 @@
                             </tr>
                             <tr class="shipping_area">
                                 <td colspan="4"></td>
+                                <td></td>
                                 <td>
                                     <div class="shipping_box">
                                         <form action="{{ route('calculateShipping') }}" method="POST">
@@ -140,7 +141,7 @@
                                                             placeholder="Enter weight" value="5000">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="value">Value (VND):</label>
+                                                        <label for="value" hidden>Value (VND):</label>
                                                         <input type="hidden" id="value" name="value" class="form-control"
                                                             value="{{ collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) }}">
                                                     </div>

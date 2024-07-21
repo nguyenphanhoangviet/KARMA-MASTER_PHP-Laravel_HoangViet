@@ -62,6 +62,11 @@ class CartController extends Controller
         $cartItemKey = $productId . '-' . $size;
         $quantity = $request->input('quantity');
 
+        // Đảm bảo số lượng không giảm xuống dưới 1
+        if ($quantity < 1) {
+            $quantity = 0;
+        }
+
         $this->cartService->update($cartItemKey, $quantity);
 
         return redirect()->route('cart.index');
@@ -93,7 +98,7 @@ class CartController extends Controller
     public function calculateShipping(Request $request)
     {
         $data = $request->all();
-        
+
         $curlData = [
             'pick_province' => "Hồ Chí Minh",
             'pick_district' => "Quận 4", // Thông tin quận lấy hàng
