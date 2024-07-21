@@ -57,12 +57,12 @@
                             @endforeach
                         </span>
                         <p>{{ $product->description }}</p>
-                        <div class="product_count">
+                        {{-- <div class="product_count">
                             <label for="qty">Quantity:</label>
                             <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
                             <button onclick="incrementQuantity({{ $product->id }})" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
                             <button onclick="decrementQuantity({{ $product->id }})" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                        </div>
+                        </div> --}}
                         <div class="card_area d-flex align-items-center">
                             <form action="{{ route('cart.add') }}" method="POST" onsubmit="return validateForm()">
                                 @csrf
