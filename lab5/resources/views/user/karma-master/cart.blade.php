@@ -28,12 +28,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Image</th>
+                                <th scope="col">Tên Sản Phẩm</th>
+                                <th scope="col">Hình ảnh</th>
                                 <th scope="col">Size</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">Giá</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Tổng (1 sản phẩm)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,20 +54,26 @@
                                     </td>
                                     <td>
                                         <div class="product_count">
-                                            <form action="{{ route('cart.update') }}" method="POST" style="display: inline;">
+                                            <form action="{{ route('cart.update') }}" method="POST"
+                                                style="display: inline;">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $item['product_id'] }}">
                                                 <input type="hidden" name="size" value="{{ $item['size'] }}">
                                                 <input type="hidden" name="quantity" value="{{ $item['quantity'] - 1 }}">
-                                                <button class="reduced items-count" type="submit"><i class="lnr lnr-chevron-down"></i></button>
+                                                <button class="reduced items-count" type="submit"><i
+                                                        class="lnr lnr-chevron-down"></i></button>
                                             </form>
-                                            <input type="text" name="qty" id="sst" maxlength="12" value="{{ $item['quantity'] }}" title="Quantity:" class="input-text qty" readonly>
-                                            <form action="{{ route('cart.update') }}" method="POST" style="display: inline;">
+                                            <input type="text" name="qty" id="sst" maxlength="12"
+                                                value="{{ $item['quantity'] }}" title="Quantity:" class="input-text qty"
+                                                readonly>
+                                            <form action="{{ route('cart.update') }}" method="POST"
+                                                style="display: inline;">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $item['product_id'] }}">
                                                 <input type="hidden" name="size" value="{{ $item['size'] }}">
                                                 <input type="hidden" name="quantity" value="{{ $item['quantity'] + 1 }}">
-                                                <button class="increase items-count" type="submit"><i class="lnr lnr-chevron-up"></i></button>
+                                                <button class="increase items-count" type="submit"><i
+                                                        class="lnr lnr-chevron-up"></i></button>
                                             </form>
                                         </div>
                                     </td>
@@ -84,47 +90,70 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            {{-- <tr class="bottom_button">
-                                <td colspan="6">
-                                    <a class="gray_btn" href="#">Update Cart</a>
-                                </td>
-                            </tr> --}}
                             <tr>
                                 <td colspan="4"></td>
                                 <td>
-                                    <h5>Subtotal</h5>
+                                    <h5>Tổng tất cả sản phẩm</h5>
                                 </td>
                                 <td>
-                                    <h5>{{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']), 0) }}
-                                        VND</h5>
+                                    <h5>{{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']), 0) }} VND</h5>
                                 </td>
                             </tr>
                             <tr class="shipping_area">
                                 <td colspan="4"></td>
                                 <td>
-                                    <h5>Shipping</h5>
-                                </td>
-                                <td>
                                     <div class="shipping_box">
-                                        <ul class="list">
-                                            <li><a href="#">Flat Rate: $5.00</a></li>
-                                            <li><a href="#">Free Shipping</a></li>
-                                            <li><a href="#">Flat Rate: $10.00</a></li>
-                                            <li class="active"><a href="#">Local Delivery: $2.00</a></li>
-                                        </ul>
-                                        <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                        <select class="shipping_select">
-                                            <option value="1">Bangladesh</option>
-                                            <option value="2">India</option>
-                                            <option value="4">Pakistan</option>
-                                        </select>
-                                        <select class="shipping_select">
-                                            <option value="1">Select a State</option>
-                                            <option value="2">Select a State</option>
-                                            <option value="4">Select a State</option>
-                                        </select>
-                                        <input type="text" placeholder="Postcode/Zipcode">
-                                        <a class="gray_btn" href="#">Update Details</a>
+                                        <form action="{{ route('calculateShipping') }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="address">Address:</label>
+                                                        <input type="text" id="address" name="address" class="form-control"
+                                                            placeholder="Enter address">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="province">Province:</label>
+                                                        <input type="text" id="province" name="province" class="form-control"
+                                                            placeholder="Enter province">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="district">District:</label>
+                                                        <input type="text" id="district" name="district" class="form-control"
+                                                            placeholder="Enter district">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="ward">Ward:</label>
+                                                        <input type="text" id="ward" name="ward" class="form-control"
+                                                            placeholder="Enter ward">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="street">Street:</label>
+                                                        <input type="text" id="street" name="street" class="form-control"
+                                                            placeholder="Enter street">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="weight">Weight (grams):</label>
+                                                        <input type="number" id="weight" name="weight" class="form-control"
+                                                            placeholder="Enter weight" value="5000">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="value">Value (VND):</label>
+                                                        <input type="hidden" id="value" name="value" class="form-control"
+                                                            value="{{ collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) }}">
+                                                    </div>
+                                                    <button class="gray_btn mt-3" type="submit">Shipping</button>
+                                                    <span id="shipping_fee" class="mt-3 d-block">
+                                                        Phí shipping: {{ number_format(session('shipping_fee', 0), 0, ',', '.') }} VND
+                                                    </span>
+                                                    <span class="mt-3 d-block">
+                                                        Tổng các chi phí: {{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) + session('shipping_fee', 0), 0, ',', '.') }} VND
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

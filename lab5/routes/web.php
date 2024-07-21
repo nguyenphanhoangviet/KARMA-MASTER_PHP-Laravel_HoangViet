@@ -80,4 +80,6 @@ Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
     Route::post('/update', [CartController::class, 'update'])->name('cart.update');
     Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/calculate-shipping', [CartController::class, 'calculateShipping'])->name('calculateShipping');
+
 });
