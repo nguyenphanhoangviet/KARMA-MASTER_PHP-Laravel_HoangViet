@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\cart\CartController;
-use App\Http\Controllers\cart\CartItemController;
+use App\Http\Controllers\cart\PayController;
 
 Route::get('/key-check', function () {
     $key = config('app.key');
@@ -81,5 +81,9 @@ Route::prefix('cart')->group(function () {
     Route::post('/update', [CartController::class, 'update'])->name('cart.update');
     Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/calculate-shipping', [CartController::class, 'calculateShipping'])->name('calculateShipping');
-
 });
+
+// Route::get('/pay', [PayController::class, 'index'])->name('pay');
+Route::post('/pay', [PayController::class, 'index'])->name('pay');
+Route::post('/vn_payments', [PayController::class, 'vn_payments'])->name('vn.payments');
+Route::get('/vnpay_return', [PayController::class, 'vnpayReturn'])->name('vnpay.return');

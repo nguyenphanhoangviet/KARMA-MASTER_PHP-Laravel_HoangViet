@@ -96,7 +96,8 @@
                                     <h5>Tổng tất cả sản phẩm</h5>
                                 </td>
                                 <td>
-                                    <h5>{{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']), 0) }} VND</h5>
+                                    <h5>{{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']), 0) }}
+                                        VND</h5>
                                 </td>
                             </tr>
                             <tr class="shipping_area">
@@ -110,47 +111,52 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="address">Address:</label>
-                                                        <input type="text" id="address" name="address" class="form-control"
-                                                            placeholder="Enter address">
+                                                        <input type="text" id="address" name="address"
+                                                            class="form-control" placeholder="Enter address">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="province">Province:</label>
-                                                        <input type="text" id="province" name="province" class="form-control"
-                                                            placeholder="Enter province">
+                                                        <input type="text" id="province" name="province"
+                                                            class="form-control" placeholder="Enter province">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="district">District:</label>
-                                                        <input type="text" id="district" name="district" class="form-control"
-                                                            placeholder="Enter district">
+                                                        <input type="text" id="district" name="district"
+                                                            class="form-control" placeholder="Enter district">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="ward">Ward:</label>
-                                                        <input type="text" id="ward" name="ward" class="form-control"
-                                                            placeholder="Enter ward">
+                                                        <input type="text" id="ward" name="ward"
+                                                            class="form-control" placeholder="Enter ward">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="street">Street:</label>
-                                                        <input type="text" id="street" name="street" class="form-control"
-                                                            placeholder="Enter street">
+                                                        <input type="text" id="street" name="street"
+                                                            class="form-control" placeholder="Enter street">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="weight">Weight (grams):</label>
-                                                        <input type="number" id="weight" name="weight" class="form-control"
-                                                            placeholder="Enter weight" value="5000">
+                                                        <input type="number" id="weight" name="weight"
+                                                            class="form-control" placeholder="Enter weight"
+                                                            value="5000">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="value" hidden>Value (VND):</label>
-                                                        <input type="hidden" id="value" name="value" class="form-control"
+                                                        <input type="hidden" id="value" name="value"
+                                                            class="form-control"
                                                             value="{{ collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) }}">
                                                     </div>
                                                     <button class="gray_btn mt-3" type="submit">Shipping</button>
                                                     <span id="shipping_fee" class="mt-3 d-block">
-                                                        Phí shipping: {{ number_format(session('shipping_fee', 0), 0, ',', '.') }} VND
+                                                        Phí shipping:
+                                                        {{ number_format(session('shipping_fee', 0), 0, ',', '.') }} VND
                                                     </span>
                                                     <span class="mt-3 d-block">
-                                                        Tổng các chi phí: {{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) + session('shipping_fee', 0), 0, ',', '.') }} VND
+                                                        Tổng các chi phí:
+                                                        {{ number_format(collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) + session('shipping_fee', 0), 0, ',', '.') }}
+                                                        VND
                                                     </span>
                                                 </div>
                                             </div>
@@ -164,7 +170,29 @@
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
                                         <a class="gray_btn" href="#">Continue Shopping</a>
-                                        <a class="primary-btn" href="#">Proceed to checkout</a>
+                                        <form action="{{ route('pay') }}" method="POST">
+                                            @csrf
+                                            {{-- @foreach ($cart as $item)
+                                                <input type="hidden" name="cart[{{ $item['product_id'] }}][name]"
+                                                    value="{{ $item['name'] }}">
+                                                <input type="hidden" name="cart[{{ $item['product_id'] }}][img]"
+                                                    value="{{ $item['img'] }}">
+                                                <input type="hidden" name="cart[{{ $item['product_id'] }}][size]"
+                                                    value="{{ $item['size'] }}">
+                                                <input type="hidden" name="cart[{{ $item['product_id'] }}][price]"
+                                                    value="{{ $item['price'] }}">
+                                                <input type="hidden" name="cart[{{ $item['product_id'] }}][quantity]"
+                                                    value="{{ $item['quantity'] }}">
+                                            @endforeach --}}
+                                            <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
+                                            <input type="hidden" name="shipping_fee" value="{{ session('shipping_fee', 0) }}">
+                                            <input type="hidden" name="address" value="{{ session('address', old('address')) }}">
+                                            <input type="hidden" name="province" value="{{ session('province', old('province')) }}">
+                                            <input type="hidden" name="district" value="{{ session('district', old('district')) }}">
+                                            <input type="hidden" name="ward" value="{{ session('ward', old('ward')) }}">
+                                            <input type="hidden" name="street" value="{{ session('street', old('street')) }}">
+                                            <button type="submit" class="primary-btn">Proceed to checkout</button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

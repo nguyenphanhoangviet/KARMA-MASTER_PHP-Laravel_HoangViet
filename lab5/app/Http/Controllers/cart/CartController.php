@@ -102,9 +102,9 @@ class CartController extends Controller
         $curlData = [
             'pick_province' => "Hồ Chí Minh",
             'pick_district' => "Quận 4", // Thông tin quận lấy hàng
-            // 'pick_ward' => "Phường 9", // Thông tin phường lấy hàng
-            // 'pick_street' => "Đoàn Văn Bơ", // Tên đường lấy hàng
-            // 'pick_address' => "152 Đoàn Văn Bơ Phường 9 Quận 4", // Địa chỉ chi tiết nơi lấy hàng
+            'pick_ward' => "Phường 9", // Thông tin phường lấy hàng
+            'pick_street' => "Đoàn Văn Bơ", // Tên đường lấy hàng
+            'pick_address' => "152 Đoàn Văn Bơ Phường 9 Quận 4", // Địa chỉ chi tiết nơi lấy hàng
             'province' => $data['province'],
             'district' => $data['district'],
             'address' => $data['address'],
@@ -133,7 +133,14 @@ class CartController extends Controller
 
         if (isset($fee['success']) && $fee['success']) {
             // dd($data);
-            return back()->with('shipping_fee', $fee['fee']['fee']);
+            return back()->with([
+                'shipping_fee' => $fee['fee']['fee'],
+                'address' => $request->input('address'),
+                'province' => $request->input('province'),
+                'district' => $request->input('district'),
+                'ward' => $request->input('ward'),
+                'street' => $request->input('street'),
+            ]);
         } else {
             // dd('abc');
             return back()->withErrors(['error' => 'Failed to calculate shipping fee']);
