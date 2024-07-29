@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Order;
-use App\Models\OrderDetail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PayController extends Controller
 {
     public function index(Request $request)
     {
-        // Retrieve data from the request
-        $cartData = $request->input('cart');
+        $cartData = $request->input('cart'); // Retrieve cart data from the request
         $shippingFee = $request->input('shipping_fee');
         $address = $request->input('address');
         $province = $request->input('province');
@@ -20,52 +19,57 @@ class PayController extends Controller
         $ward = $request->input('ward');
         $street = $request->input('street');
 
-        if ($request->has('cart') && $request->has('shipping_fee')) {
-            // Calculate total
-            $total = 0;
-            foreach ($cartData as $item) {
-                $total += $item['quantity'] * $item['price'];
-            }
-            $total += $shippingFee;
-
-            // Save order to the database
-            $order = Order::create([
-                'cart_data' => json_encode($cartData), // Assuming cartData is an array, encode it to JSON
-                'shipping_fee' => $shippingFee,
-                'address' => $address,
-                'province' => $province,
-                'district' => $district,
-                'ward' => $ward,
-                'street' => $street,
-                'total' => $total,  // Lưu tổng số tiền vào database
-            ]);
-
-            // Save order details to the database
-            foreach ($cartData as $item) {
-                OrderDetail::create([
-                    'order_id' => $order->id,
-                    'product_name' => $item['product_name'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                ]);
-            }
-        }
-
         return view('user.karma-master.pay', compact('cartData', 'shippingFee', 'address', 'province', 'district', 'ward', 'street'));
+    }
+
+    public function storeOrder(Request $request, $paymentMethod)
+    {
+        $request->validate([
+            'cart_data' => 'required',
+            'shipping_fee' => 'required|numeric',
+            'address' => 'required|string',
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'ward' => 'required|string',
+            'street' => 'required|string',
+            'total' => 'required|numeric'
+        ]);
+
+        $order = Order::create([
+            'user_id' => Auth::id(), // Lấy user_id từ Auth
+            'cart_data' => $request->input('cart_data'),
+            'shipping_fee' => $request->input('shipping_fee'),
+            'address' => $request->input('address'),
+            'province' => $request->input('province'),
+            'district' => $request->input('district'),
+            'ward' => $request->input('ward'),
+            'street' => $request->input('street'),
+            'total' => $request->input('total'),
+            'payment_method' => $paymentMethod
+        ]);
+
+        if ($paymentMethod == 'vnpay') {
+            return $this->vn_payments($request);
+        } elseif ($paymentMethod == 'momo') {
+            return $this->momo_payments($request);
+        } else {
+            return $order;
+        }
     }
 
     public function vn_payments(Request $request)
     {
-        // Xử lý thanh toán với VNPay
         error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+        dd($request);
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = route('vn.payments.callback'); // URL callback sau khi thanh toán
         $vnp_TmnCode = "W1GGPIQA"; // Mã website tại VNPAY
         $vnp_HashSecret = "CTYDAV3MTLPIW459EQGANU6WOTT92Y2M"; // Chuỗi bí mật
 
-        $vnp_TxnRef = $request->input('order_id', '12376'); // Mã đơn hàng
+        $vnp_TxnRef = $request->input('order_id', '5'); // Mã đơn hàng
         $vnp_OrderInfo = $request->input('order_desc', 'Thanh toán đơn hàng tại web');
         $vnp_OrderType = $request->input('order_type', 'billpayment');
         $vnp_Amount = $request->input('amount', 20000) * 100;
@@ -169,5 +173,9 @@ class PayController extends Controller
             // Thanh toán thất bại
             return redirect('http://127.0.0.1:8000/pay')->with('error', 'Thanh toán thất bại!');
         }
+    }
+
+    public function momo_payments(){
+        
     }
 }

@@ -11,7 +11,6 @@ class OrderController extends Controller
 {
     public function index()
     {
-        // $orders = Order::all();
         $orders = Order::paginate(10); // Phân trang với 10 mục mỗi trang   
         return view('admin.order.index', compact('orders'));
     }
@@ -32,6 +31,7 @@ class OrderController extends Controller
             'ward' => 'required|string',
             'street' => 'required|string',
             'total' => 'required|numeric',
+            'payment_method' => 'required|string'
         ]);
 
         $order = Order::create([
@@ -43,7 +43,8 @@ class OrderController extends Controller
             'district' => $request->input('district'),
             'ward' => $request->input('ward'),
             'street' => $request->input('street'),
-            'total' => $request->input('total')
+            'total' => $request->input('total'),
+            'payment_method' => $request->input('payment_method') // Thêm cột payment_method
         ]);
 
         return redirect()->route('admin.orders.index')->with('success', 'Order created successfully.');
@@ -70,6 +71,7 @@ class OrderController extends Controller
             'ward' => 'required|string',
             'street' => 'required|string',
             'total' => 'required|numeric',
+            'payment_method' => 'required|string'
         ]);
 
         $order->update($request->all());

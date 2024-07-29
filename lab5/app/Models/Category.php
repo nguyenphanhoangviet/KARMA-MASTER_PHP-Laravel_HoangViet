@@ -9,6 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $table = 'category'; // Thêm dòng này để chỉ định tên bảng
     protected $fillable = ['name'];
 
     public function products()

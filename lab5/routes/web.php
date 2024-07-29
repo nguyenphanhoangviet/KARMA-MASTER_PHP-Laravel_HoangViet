@@ -83,10 +83,14 @@ Route::prefix('cart')->group(function () {
     Route::post('/calculate-shipping', [CartController::class, 'calculateShipping'])->name('calculateShipping');
 });
 
-// Route::get('/pay', [PayController::class, 'index'])->name('pay');
-// Route::post('/vn_payments', [PayController::class, 'vn_payments'])->name('vn.payments');
-// Route::get('/vnpay_return', [PayController::class, 'vnpayReturn'])->name('vnpay.return');
-Route::match(['get', 'post'], '/pay', [PayController::class, 'index'])->name('pay');
-Route::post('/vn-payments', [PayController::class, 'vn_payments'])->name('vn.payments');
-Route::get('/vn-payments/callback', [PayController::class, 'vn_payments_callback'])->name('vn.payments.callback');
+//Pay
+Route::prefix('pay')->name('pay.')->group(function () {
+    Route::match(['get', 'post'], '/', [PayController::class, 'index'])->name('index');
+    Route::post('/vnpay', [PayController::class, 'vn_payments'])->name('vnpay');
+    Route::get('/vnpay/callback', [PayController::class, 'vn_payments_callback'])->name('vnpay.callback');
+    Route::post('/momo', [PayController::class, 'momo_payments'])->name('momo');
+    Route::get('/momo/callback', [PayController::class, 'momo_payments_callback'])->name('momo.callback');
+});
+
+
 

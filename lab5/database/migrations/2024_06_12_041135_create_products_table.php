@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->decimal('price', 15, 3);
-            $table->string('img')->nullable();
-            $table->integer('stock');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('color_id')->nullable();
-            $table->unsignedBigInteger('brand_id');
+            $table->string('name'); // Tên của sản phẩm
+            $table->text('description')->nullable(); // Mô tả sản phẩm
+            $table->decimal('price', 15, 3); // Giá của sản phẩm với 3 chữ số thập phân
+            $table->string('img')->nullable(); // Hình ảnh sản phẩm
+            $table->integer('stock'); // Thêm cột stock với giá trị mặc định là 0
+            $table->unsignedBigInteger('category_id'); // Khóa ngoại liên kết với bảng categories
+            $table->unsignedBigInteger('color_id')->nullable(); // Khóa ngoại liên kết với bảng colors
+            $table->unsignedBigInteger('brand_id'); // Khóa ngoại liên kết với bảng brands
             $table->timestamps();
 
+            // Định nghĩa khóa ngoại
             $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->foreign('color_id')->references('id')->on('colors')->onDelete('set null');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
@@ -37,3 +38,4 @@ return new class extends Migration
         Schema::dropIfExists('products');
     }
 };
+

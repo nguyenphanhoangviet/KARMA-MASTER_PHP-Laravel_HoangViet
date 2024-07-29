@@ -10,20 +10,18 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'cart_data', 
-        'shipping_fee', 
-        'address', 
-        'province', 
-        'district', 
-        'ward', 
+        'cart_data',
+        'shipping_fee',
+        'address',
+        'province',
+        'district',
+        'ward',
         'street',
-        'total'  // Thêm cột total vào đây
+        'status',
+        'payment_method'
     ];
 
-    public function orderDetails()
-    {
-        return $this->hasMany(OrderDetail::class);
-    }
+    protected $casts = [
+        'cart_data' => 'array'
+    ];
 }
-
