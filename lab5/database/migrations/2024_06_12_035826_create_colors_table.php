@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('colors', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Tên của màu sắc
-            $table->string('hex_code')->nullable(); // Mã màu HEX
+            $table->string('name');
+            $table->string('hex_code')->nullable();
             $table->timestamps();
         });
     }

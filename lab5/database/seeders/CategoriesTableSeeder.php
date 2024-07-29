@@ -10,7 +10,7 @@ class CategoriesTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('categories')->insert([
+        DB::table('category')->insert([
             [
                 'id' => 3,
                 'name' => 'Giày bóng rổ',

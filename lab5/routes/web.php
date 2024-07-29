@@ -84,6 +84,9 @@ Route::prefix('cart')->group(function () {
 });
 
 // Route::get('/pay', [PayController::class, 'index'])->name('pay');
-Route::post('/pay', [PayController::class, 'index'])->name('pay');
-Route::post('/vn_payments', [PayController::class, 'vn_payments'])->name('vn.payments');
-Route::get('/vnpay_return', [PayController::class, 'vnpayReturn'])->name('vnpay.return');
+// Route::post('/vn_payments', [PayController::class, 'vn_payments'])->name('vn.payments');
+// Route::get('/vnpay_return', [PayController::class, 'vnpayReturn'])->name('vnpay.return');
+Route::match(['get', 'post'], '/pay', [PayController::class, 'index'])->name('pay');
+Route::post('/vn-payments', [PayController::class, 'vn_payments'])->name('vn.payments');
+Route::get('/vn-payments/callback', [PayController::class, 'vn_payments_callback'])->name('vn.payments.callback');
+

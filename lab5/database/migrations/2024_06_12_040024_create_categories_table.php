@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('category', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Tên của danh mục
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,3 +26,6 @@ return new class extends Migration
         Schema::dropIfExists('categories');
     }
 };
+
+
+

@@ -3,24 +3,54 @@
 @section('content')
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h2>Edit Order</h2>
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-primary">Back</a>
         </div>
         <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                    <label for="customer_name">Customer Name:</label>
-                    <input type="text" class="form-control" id="customer_name" name="customer_name" value="{{ $order->customer_name }}" required>
+                    <label for="cart_data">Cart Data:</label>
+                    <input type="text" class="form-control" id="cart_data" name="cart_data" value="{{ old('cart_data', $order->cart_data) }}">
                 </div>
                 <div class="form-group">
-                    <label for="order_date">Order Date:</label>
-                    <input type="date" class="form-control" id="order_date" name="order_date" value="{{ $order->order_date }}" required>
+                    <label for="shipping_fee">Shipping Fee:</label>
+                    <input type="number" class="form-control" id="shipping_fee" name="shipping_fee" value="{{ old('shipping_fee', $order->shipping_fee) }}">
                 </div>
                 <div class="form-group">
-                    <label for="total_amount">Total Amount:</label>
-                    <input type="number" class="form-control" id="total_amount" name="total_amount" value="{{ $order->total_amount }}" required>
+                    <label for="address">Address:</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{ old('address', $order->address) }}">
+                </div>
+                <div class="form-group">
+                    <label for="province">Province:</label>
+                    <input type="text" class="form-control" id="province" name="province" value="{{ old('province', $order->province) }}">
+                </div>
+                <div class="form-group">
+                    <label for="district">District:</label>
+                    <input type="text" class="form-control" id="district" name="district" value="{{ old('district', $order->district) }}">
+                </div>
+                <div class="form-group">
+                    <label for="ward">Ward:</label>
+                    <input type="text" class="form-control" id="ward" name="ward" value="{{ old('ward', $order->ward) }}">
+                </div>
+                <div class="form-group">
+                    <label for="street">Street:</label>
+                    <input type="text" class="form-control" id="street" name="street" value="{{ old('street', $order->street) }}">
+                </div>
+                <div class="form-group">
+                    <label for="total">Total:</label>
+                    <input type="number" class="form-control" id="total" name="total" value="{{ old('total', $order->total) }}">
                 </div>
                 <button type="submit" class="btn btn-primary">Update Order</button>
             </form>

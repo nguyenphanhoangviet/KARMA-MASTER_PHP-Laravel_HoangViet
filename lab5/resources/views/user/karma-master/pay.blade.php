@@ -79,12 +79,12 @@
             </div>
             <form id="vnpay-form" action="{{ route('vn.payments') }}" method="POST" style="display: none;">
                 @csrf
-                <input type="hidden" name="order_id" value="12345">
+                <input type="hidden" name="order_id" value="1235">
                 <input type="hidden" name="order_desc" value="Mô tả đơn hàng">
                 <input type="hidden" name="order_type" value="billpayment">
-                <input type="hidden" name="amount" value="10000">
+                <input type="hidden" name="amount" value="20000">
                 <input type="hidden" name="language" value="vn">
-                <input type="hidden" name="bank_code" value="">
+                <input type="hidden" name="bank_code" value="NCB">
                 <input type="hidden" name="txtexpire" value="">
                 <input type="hidden" name="txt_billing_mobile" value="0123456789">
                 <input type="hidden" name="txt_billing_email" value="email@example.com">

@@ -10,7 +10,8 @@ class OrderDetailController extends Controller
 {
     public function index()
     {
-        $orderDetails = OrderDetail::all();
+        // $orderDetails = OrderDetail::all();
+        $orderDetails = OrderDetail::paginate(10);
         return view('admin.order_detail.index', compact('orderDetails'));
     }
 
@@ -23,7 +24,7 @@ class OrderDetailController extends Controller
     {
         $request->validate([
             'order_id' => 'required|exists:orders,id',
-            'product_id' => 'required|exists:products,id',
+            'product_name' => 'required|string',
             'quantity' => 'required|integer',
             'price' => 'required|numeric',
         ]);
@@ -46,7 +47,7 @@ class OrderDetailController extends Controller
     {
         $request->validate([
             'order_id' => 'required|exists:orders,id',
-            'product_id' => 'required|exists:products,id',
+            'product_name' => 'required|string',
             'quantity' => 'required|integer',
             'price' => 'required|numeric',
         ]);
@@ -61,3 +62,4 @@ class OrderDetailController extends Controller
         return redirect()->route('admin.order-details.index')->with('success', 'Order Detail deleted successfully.');
     }
 }
+

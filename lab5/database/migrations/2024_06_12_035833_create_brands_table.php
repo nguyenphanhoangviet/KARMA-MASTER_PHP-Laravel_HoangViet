@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Tên của thương hiệu
-            $table->string('img')->nullable(); // Hình ảnh của thương hiệu
+            $table->string('name');
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }
@@ -27,3 +27,4 @@ return new class extends Migration
         Schema::dropIfExists('brands');
     }
 };
+

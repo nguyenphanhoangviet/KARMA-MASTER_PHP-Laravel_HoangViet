@@ -8,13 +8,28 @@
             <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">Create Order</a>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Customer Name</th>
-                        <th>Order Date</th>
-                        <th>Total Amount</th>
+                        <th>User ID</th>
+                        <th>Total</th>
+                        <th>Shipping Fee</th>
+                        <th>Address</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -22,22 +37,24 @@
                     @foreach($orders as $order)
                     <tr>
                         <td>{{ $order->id }}</td>
-                        <td>{{ $order->customer_name }}</td>
-                        <td>{{ $order->order_date }}</td>
-                        <td>{{ $order->total_amount }}</td>
+                        <td>{{ $order->user_id }}</td>
+                        <td>{{ $order->total }}</td>
+                        <td>{{ $order->shipping_fee }}</td>
+                        <td>{{ $order->address }}</td>
                         <td>
-                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-success mb-2">Show</a>
-                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning mb-2">Edit</a>
+                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info">Show</a>
+                            <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{ $orders->links() }}
         </div>
     </div>
 </div>

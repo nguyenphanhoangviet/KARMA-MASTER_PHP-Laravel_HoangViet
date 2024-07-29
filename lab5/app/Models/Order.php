@@ -11,17 +11,19 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'total_price',
-        'status'
+        'cart_data', 
+        'shipping_fee', 
+        'address', 
+        'province', 
+        'district', 
+        'ward', 
+        'street',
+        'total'  // Thêm cột total vào đây
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
     }
 }
+

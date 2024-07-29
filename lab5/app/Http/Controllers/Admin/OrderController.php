@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
+        // $orders = Order::all();
+        $orders = Order::paginate(10); // Phân trang với 10 mục mỗi trang   
         return view('admin.order.index', compact('orders'));
     }
 
@@ -22,12 +24,28 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_name' => 'required|string',
-            'total_amount' => 'required|numeric',
-            'status' => 'required|string',
+            'cart_data' => 'required', // Assuming cart_data is a JSON string or array
+            'shipping_fee' => 'required|numeric',
+            'address' => 'required|string',
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'ward' => 'required|string',
+            'street' => 'required|string',
+            'total' => 'required|numeric',
         ]);
 
-        $order = Order::create($request->all());
+        $order = Order::create([
+            'user_id' => Auth::id(), // Lấy user_id từ Auth
+            'cart_data' => $request->input('cart_data'),
+            'shipping_fee' => $request->input('shipping_fee'),
+            'address' => $request->input('address'),
+            'province' => $request->input('province'),
+            'district' => $request->input('district'),
+            'ward' => $request->input('ward'),
+            'street' => $request->input('street'),
+            'total' => $request->input('total')
+        ]);
+
         return redirect()->route('admin.orders.index')->with('success', 'Order created successfully.');
     }
 
@@ -44,9 +62,14 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'customer_name' => 'required|string',
-            'total_amount' => 'required|numeric',
-            'status' => 'required|string',
+            'cart_data' => 'required', // Assuming cart_data is a JSON string or array
+            'shipping_fee' => 'required|numeric',
+            'address' => 'required|string',
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'ward' => 'required|string',
+            'street' => 'required|string',
+            'total' => 'required|numeric',
         ]);
 
         $order->update($request->all());
