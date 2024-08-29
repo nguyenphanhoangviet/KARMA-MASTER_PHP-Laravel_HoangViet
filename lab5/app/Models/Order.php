@@ -10,6 +10,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'cart_data',
         'shipping_fee',
         'address',
@@ -17,11 +18,11 @@ class Order extends Model
         'district',
         'ward',
         'street',
-        'status',
+        'total',
         'payment_method'
     ];
 
-    protected $casts = [
-        'cart_data' => 'array'
-    ];
+    // protected $casts = [
+    //     'cart_data' => 'array'
+    // ];
 }

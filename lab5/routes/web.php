@@ -85,12 +85,10 @@ Route::prefix('cart')->group(function () {
 
 //Pay
 Route::prefix('pay')->name('pay.')->group(function () {
-    Route::match(['get', 'post'], '/', [PayController::class, 'index'])->name('index');
+    Route::match(['get', 'post'], '/pay', [PayController::class, 'index'])->name('index');
+    Route::post('/payment-info-vnpay/{paymentMethod}', [PayController::class, 'showPaymentForm'])->name('payment.info');
     Route::post('/vnpay', [PayController::class, 'vn_payments'])->name('vnpay');
-    Route::get('/vnpay/callback', [PayController::class, 'vn_payments_callback'])->name('vnpay.callback');
     Route::post('/momo', [PayController::class, 'momo_payments'])->name('momo');
     Route::get('/momo/callback', [PayController::class, 'momo_payments_callback'])->name('momo.callback');
+    Route::post('/storeOrder/{paymentMethod}', [PayController::class, 'storeOrder'])->name('storeOrder');
 });
-
-
-
