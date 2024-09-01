@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cart;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,64 +29,87 @@ class PayController extends Controller
     }
 
     public function storeOrder(Request $request, $paymentMethod)
-{
-    $request->validate([
-        'cart' => 'required',
-        'shipping_fee' => 'required|numeric',
-        'address' => 'nullable|string',
-        'province' => 'required|string',
-        'district' => 'required|string',
-        'ward' => 'required|string',
-        'street' => 'required|string',
-        'total' => 'required|numeric',
-        'expiry_date' => 'nullable|string',
-        'bank' => 'nullable|string',
-        'cvv' => 'nullable|string',
-        'email' => 'nullable|email',
-        'city' => 'nullable|string',
-        'card_type' => 'nullable|string',
-    ]);
-
-    // Cung cấp giá trị mặc định nếu 'address' là null
-    $address = $request->input('address', 'Địa chỉ không xác định');
-
-    $order = Order::create([
-        'user_id' => Auth::id(), // Lấy user_id từ Auth
-        'cart_data' => $request->input('cart'),
-        'shipping_fee' => $request->input('shipping_fee'),
-        'address' => $address,
-        'province' => $request->input('province'),
-        'district' => $request->input('district'),
-        'ward' => $request->input('ward'),
-        'street' => $request->input('street'),
-        'total' => $request->input('total'),
-        'payment_method' => $paymentMethod
-    ]);
-
-    // Chuyển các dữ liệu không cần lưu vào cơ sở dữ liệu sang phương thức thanh toán
-    if ($paymentMethod == 'vnpay') {
-        return $this->vn_payments($request);
-    } elseif ($paymentMethod == 'momo') {
-        return $this->momo_payments($request);
-    } elseif ($paymentMethod == 'paypal') {
-        // return $this->paypal_payments($request);
-    } else {
-        return response()->json(['error' => 'Invalid payment method'], 400);
-    }
-}
-
-    public function showPaymentForm(Request $request, $paymentMethod)
     {
+        $request->validate([
+            'cart' => 'required',
+            'shipping_fee' => 'required|numeric',
+            'address' => 'nullable|string',
+            'province' => 'required|string',
+            'district' => 'required|string',
+            'ward' => 'required|string',
+            'street' => 'required|string',
+            'total' => 'required|numeric',
+            // 'expiry_date' => 'nullable|string',
+            // 'bank' => 'nullable|string',
+            // 'cvv' => 'nullable|string',
+            // 'email' => 'nullable|email',
+            // 'city' => 'nullable|string',
+            // 'card_type' => 'nullable|string',
+        ]);
+
+        // Cung cấp giá trị mặc định nếu 'address' là null
+        $address = $request->input('address', 'Địa chỉ không xác định');
+
+        // Lưu thông tin vào bảng orders
+        $order = Order::create([
+            'user_id' => Auth::id(), // Lấy user_id từ Auth
+            'shipping_fee' => $request->input('shipping_fee'),
+            'address' => $address,
+            'province' => $request->input('province'),
+            'district' => $request->input('district'),
+            'ward' => $request->input('ward'),
+            'street' => $request->input('street'),
+            'total' => $request->input('total'),
+            'payment_method' => $paymentMethod,
+            'cart_data' => $request->input('cart') // Cung cấp giá trị cho trường cart_data
+        ]);
+
         $cartData = $request->input('cart');
-        $shippingFee = $request->input('shipping_fee');
-        $address = $request->input('address');
-        $province = $request->input('province');
-        $district = $request->input('district');
-        $ward = $request->input('ward');
-        $street = $request->input('street');
-        $total = $request->input('total');
-        return view('user.karma-master.payment-info', compact('paymentMethod','cartData', 'shippingFee', 'address', 'province', 'district', 'ward', 'street', 'total'));
+
+        // Nếu cartData là chuỗi, cố gắng chuyển đổi nó thành mảng
+        if (is_string($cartData)) {
+            $cartData = json_decode($cartData, true); // true để trả về mảng thay vì đối tượng
+        }
+
+        // Kiểm tra xem cartData có phải là mảng hoặc đối tượng không
+        if (is_array($cartData) || is_object($cartData)) {
+            foreach ($cartData as $item) {
+                OrderDetail::create([
+                    'order_id' => $order->id,
+                    'product_name' => $item['name'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price']
+                ]);
+            }
+        } else {
+            // Xử lý lỗi khi cartData không phải là mảng hoặc đối tượng
+            return response()->json(['error' => 'Invalid cart data format.'], 400);
+        }
+
+        // Chuyển các dữ liệu không cần lưu vào cơ sở dữ liệu sang phương thức thanh toán
+        if ($paymentMethod == 'vnpay') {
+            return $this->vn_payments($request);
+        } elseif ($paymentMethod == 'momo') {
+            return $this->momo_payments($request);
+        } elseif ($paymentMethod == 'paypal') {
+            // return $this->paypal_payments($request);
+        } else {
+            return response()->json(['error' => 'Invalid payment method'], 400);
+        }
     }
+
+    // public function showPaymentForm(Request $request, $paymentMethod)
+    // {
+    //     $cartData = $request->input('cart');
+    //     $shippingFee = $request->input('shipping_fee');
+    //     $address = $request->input('address');
+    //     $province = $request->input('province');
+    //     $district = $request->input('district');
+    //     $ward = $request->input('ward');
+    //     $street = $request->input('street');
+    //     $total = $request->input('total');
+    //     return view('user.karma-master.payment-info', compact('paymentMethod','cartData', 'shippingFee', 'address', 'province', 'district', 'ward', 'street', 'total'));
+    // }
 
 
 
@@ -96,16 +120,18 @@ class PayController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = 'http://127.0.0.1:8000/pay/pay'; // URL callback sau khi thanh toán
+        $vnp_Returnurl = route('pay.vnpay.return');
         $vnp_TmnCode = "W1GGPIQA"; // Mã website tại VNPAY
         $vnp_HashSecret = "CTYDAV3MTLPIW459EQGANU6WOTT92Y2M"; // Chuỗi bí mật
 
+        // dd($request);
         $vnp_TxnRef = Order::latest()->value('id'); // Mã đơn hàng
         $vnp_OrderInfo = $request->input('order_desc', 'Thanh toán đơn hàng tại web');
         $vnp_OrderType = $request->input('order_type', 'billpayment');
         $vnp_Amount = $request->input('total') * 100;
         $vnp_Locale = $request->input('language', 'vn');
-        $vnp_BankCode = $request->input('bank_code', 'Techcombank');
+        // $vnp_BankCode = $request->input('bank'); // Sử dụng 'bank' thay vì 'bank_code'
+        // $cartType = $request->input('cart_type'); // Thêm biến cart_type vào đây
         $vnp_IpAddr = $request->ip();
 
         // $vnp_ExpireDate = $request->input('txtexpire');
@@ -191,7 +217,9 @@ class PayController extends Controller
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
         $returnData = array(
-            'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+            'code' => '00',
+            'message' => 'Thanh toán thành công',
+            'data' => $vnp_Url
         );
         // dd($request);
         if (isset($_POST['total'])) {
@@ -199,8 +227,22 @@ class PayController extends Controller
             header('Location: ' . $vnp_Url);
             die();
         } else {
-            dd('bcd');
+            // dd('bcd');
             echo json_encode($returnData);
+        }
+    }
+
+    public function handleVNPayReturn(Request $request)
+    {
+        // Lấy mã phản hồi từ VNPay
+        $vnp_ResponseCode = $request->input('vnp_ResponseCode');
+
+        if ($vnp_ResponseCode == '00') {
+            // Nếu thanh toán thành công
+            return view('payment.success', ['message' => 'Thanh toán thành công']);
+        } else {
+            // Nếu thanh toán không thành công
+            return view('payment.failure', ['message' => 'Thanh toán không thành công']);
         }
     }
 
@@ -208,7 +250,5 @@ class PayController extends Controller
 
 
 
-    public function momo_payments()
-    {
-    }
+    public function momo_payments() {}
 }

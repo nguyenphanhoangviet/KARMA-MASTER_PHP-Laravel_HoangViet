@@ -39,7 +39,7 @@
                     <div class="card-body">
                         <img src="{{ asset('imgs/payment/vnpay.jpg') }}" alt="VNPay" style="width: 100px;">
                         <p class="card-text">Thanh toán bằng ví điện tử VNPay.</p>
-                        <form action="{{ route('pay.payment.info', ['paymentMethod' => 'vnpay']) }}" method="POST">
+                        <form action="{{ route('pay.storeOrder', ['paymentMethod' => 'vnpay']) }}" method="POST">
                             @csrf
                             <input type="hidden" name="cart" value="{{ $cartData }}">
                             <input type="hidden" name="shipping_fee" value="{{ $shippingFee }}">

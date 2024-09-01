@@ -112,7 +112,7 @@
                                 <label for="street">Street:</label>
                                 <input type="text" id="street" name="street" class="form-control" placeholder="Enter street">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label for="weight">Weight (grams):</label>
                                 <input type="number" id="weight" name="weight" class="form-control" placeholder="Enter weight" value="5000">
                             </div>
