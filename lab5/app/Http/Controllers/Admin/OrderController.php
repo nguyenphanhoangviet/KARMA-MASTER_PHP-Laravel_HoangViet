@@ -6,25 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User; // Nhớ import model User
 
 class OrderController extends Controller
 {
     public function index()
     {
         // Phân trang với 10 mục mỗi trang
-        $orders = Order::paginate(10);   
+        $orders = Order::with('orderDetails')->paginate(10);
         return view('admin.order.index', compact('orders'));
     }
 
     public function create()
     {
-        return view('admin.order.create');
+        $users = User::all(); // Lấy tất cả người dùng
+        return view('admin.order.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'cart_data' => 'required', // Giả sử cart_data là chuỗi JSON hoặc mảng
             'shipping_fee' => 'required|numeric',
             'address' => 'required|string',
             'province' => 'required|string',
@@ -35,10 +36,9 @@ class OrderController extends Controller
             'payment_method' => 'required|string',
             'phone' => 'required|string'
         ]);
-
+        // dd($request);
         $order = Order::create([
             'user_id' => Auth::id(), // Lấy user_id từ Auth
-            'cart_data' => $request->input('cart_data'),
             'shipping_fee' => $request->input('shipping_fee'),
             'address' => $request->input('address'),
             'province' => $request->input('province'),
@@ -47,8 +47,8 @@ class OrderController extends Controller
             'street' => $request->input('street'),
             'total' => $request->input('total'),
             'payment_method' => $request->input('payment_method'),
-            'phone' => $request->input('phone'), // Thêm cột phone
-            'payment_status' => 'Chưa Thanh Toán' // Thiết lập trạng thái thanh toán mặc định
+            'phone' => $request->input('phone'),
+            'payment_status' =>  $request->input('payment_status') // Thiết lập trạng thái thanh toán mặc định
         ]);
 
         return redirect()->route('admin.orders.index')->with('success', 'Order created successfully.');
@@ -70,13 +70,13 @@ class OrderController extends Controller
 
     public function edit(Order $order)
     {
-        return view('admin.order.edit', compact('order'));
+        $users = User::all();
+        return view('admin.order.edit', compact('order', 'users'));
     }
 
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'cart_data' => 'required', // Giả sử cart_data là chuỗi JSON hoặc mảng
             'shipping_fee' => 'required|numeric',
             'address' => 'required|string',
             'province' => 'required|string',

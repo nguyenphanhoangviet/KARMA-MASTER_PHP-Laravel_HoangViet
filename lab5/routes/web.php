@@ -38,6 +38,10 @@ Route::prefix('admin')->middleware(['auth', Admin::class])->name('admin.')->grou
     Route::resource('reviews', ReviewController::class);
     Route::resource('comments', CommentController::class);
     Route::resource('sizes', SizeController::class);
+    // Route cho Order
+    Route::post('/orders', [OrderController::class, 'store'])->name('order.store');
+    // Route cho OrderDetail
+    Route::post('/order-details', [OrderDetailController::class, 'store'])->name('orderDetail.store');
 });
 
 Route::get('/register', function () {

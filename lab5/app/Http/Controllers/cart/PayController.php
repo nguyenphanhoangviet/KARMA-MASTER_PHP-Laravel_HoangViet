@@ -66,7 +66,8 @@ class PayController extends Controller
             'street' => $request->input('street'),
             'total' => $request->input('total'),
             'payment_method' => $paymentMethod,
-            'cart_data' => $request->input('cart') // Cung cấp giá trị cho trường cart_data
+            'payment_status' =>  "Chưa Thanh Toán"
+            // 'cart_data' => $request->input('cart') // Cung cấp giá trị cho trường cart_data
         ]);
 
         $cartData = $request->input('cart');
@@ -279,7 +280,7 @@ class PayController extends Controller
         $orderId = $orderId;
         $order = Order::find($orderId);
         if ($order) {
-            $order->payment_status = 'Giao dịch thành công'; // Hoặc trạng thái tương ứng
+            $order->payment_status = 'Giao dịch khi nhận hàng Thành Công'; // Hoặc trạng thái tương ứng
             $order->save();
 
             // Xóa giỏ hàng hoặc cập nhật số lượng
@@ -291,7 +292,7 @@ class PayController extends Controller
         } else {
             $order = Order::find($orderId);
             if ($order) {
-                $order->payment_status = 'Giao dịch thất bại'; // Hoặc trạng thái tương ứng
+                $order->payment_status = 'Giao dịch khi nhận hàng Thất Bại'; // Hoặc trạng thái tương ứng
                 $order->save();
 
                 // Xóa giỏ hàng hoặc cập nhật số lượng

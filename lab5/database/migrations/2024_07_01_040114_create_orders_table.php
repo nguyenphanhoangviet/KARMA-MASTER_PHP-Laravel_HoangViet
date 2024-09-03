@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->text('cart_data');
+            // $table->text('cart_data');
             $table->decimal('shipping_fee', 10, 2);
             $table->string('address');
             $table->string('province');
