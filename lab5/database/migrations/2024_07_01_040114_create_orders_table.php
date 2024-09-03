@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('district');
             $table->string('ward');
             $table->string('street');
+            $table->string('phone'); // Thêm cột phone vào đây
             $table->string('payment_method')->nullable(); // Thêm cột payment_method vào đây
             $table->decimal('total', 10, 2);
+            $table->string('payment_status')->default('Chưa Thanh Toán'); // Thêm cột payment_status
             $table->timestamps();
 
             // Định nghĩa khóa ngoại

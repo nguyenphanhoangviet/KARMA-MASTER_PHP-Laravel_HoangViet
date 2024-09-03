@@ -11,7 +11,8 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::paginate(10); // Phân trang với 10 mục mỗi trang   
+        // Phân trang với 10 mục mỗi trang
+        $orders = Order::paginate(10);   
         return view('admin.order.index', compact('orders'));
     }
 
@@ -23,7 +24,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'cart_data' => 'required', // Assuming cart_data is a JSON string or array
+            'cart_data' => 'required', // Giả sử cart_data là chuỗi JSON hoặc mảng
             'shipping_fee' => 'required|numeric',
             'address' => 'required|string',
             'province' => 'required|string',
@@ -31,7 +32,8 @@ class OrderController extends Controller
             'ward' => 'required|string',
             'street' => 'required|string',
             'total' => 'required|numeric',
-            'payment_method' => 'required|string'
+            'payment_method' => 'required|string',
+            'phone' => 'required|string'
         ]);
 
         $order = Order::create([
@@ -44,14 +46,25 @@ class OrderController extends Controller
             'ward' => $request->input('ward'),
             'street' => $request->input('street'),
             'total' => $request->input('total'),
-            'payment_method' => $request->input('payment_method') // Thêm cột payment_method
+            'payment_method' => $request->input('payment_method'),
+            'phone' => $request->input('phone'), // Thêm cột phone
+            'payment_status' => 'Chưa Thanh Toán' // Thiết lập trạng thái thanh toán mặc định
         ]);
 
         return redirect()->route('admin.orders.index')->with('success', 'Order created successfully.');
     }
 
-    public function show(Order $order)
+    public function show($id)
     {
+        // Sử dụng with('user') để load mối quan hệ user với order
+        $order = Order::with('user')->find($id);
+
+        // Kiểm tra nếu order không tồn tại
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found.');
+        }
+
+        // Trả về view với dữ liệu order
         return view('admin.order.show', compact('order'));
     }
 
@@ -63,7 +76,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $request->validate([
-            'cart_data' => 'required', // Assuming cart_data is a JSON string or array
+            'cart_data' => 'required', // Giả sử cart_data là chuỗi JSON hoặc mảng
             'shipping_fee' => 'required|numeric',
             'address' => 'required|string',
             'province' => 'required|string',
@@ -71,16 +84,20 @@ class OrderController extends Controller
             'ward' => 'required|string',
             'street' => 'required|string',
             'total' => 'required|numeric',
-            'payment_method' => 'required|string'
+            'payment_method' => 'required|string',
+            'phone' => 'required|string',
+            'payment_status' => 'required|string' // Thêm validation cho payment_status
         ]);
 
         $order->update($request->all());
+
         return redirect()->route('admin.orders.index')->with('success', 'Order updated successfully.');
     }
 
     public function destroy(Order $order)
     {
         $order->delete();
+
         return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
     }
 }

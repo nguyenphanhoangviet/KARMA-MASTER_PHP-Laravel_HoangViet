@@ -20,16 +20,19 @@ class PayController extends Controller
         $ward = $request->input('ward');
         $street = $request->input('street');
         $total = $request->input('total');
+        $phone = $request->input('phone');
+        // dd($phone);
 
-        if (is_null($cartData) || is_null($shippingFee) || is_null($address) || is_null($province) || is_null($district) || is_null($ward) || is_null($street)) {
+        if (is_null($cartData) || is_null($shippingFee) || is_null($address) || is_null($province) || is_null($district) || is_null($ward) || is_null($street) || is_null($phone)) {
             return redirect()->route('cart.index')->with('error', 'Vui lòng nhập đầy đủ thông tin địa chỉ.');
         }
 
-        return view('user.karma-master.pay', compact('cartData', 'shippingFee', 'address', 'province', 'district', 'ward', 'street', 'total'));
+        return view('user.karma-master.pay', compact('cartData', 'shippingFee', 'address', 'province', 'district', 'ward', 'street', 'total' ,'phone'));
     }
 
     public function storeOrder(Request $request, $paymentMethod)
     {
+        // dd($request);
         $request->validate([
             'cart' => 'required',
             'shipping_fee' => 'required|numeric',
@@ -39,6 +42,7 @@ class PayController extends Controller
             'ward' => 'required|string',
             'street' => 'required|string',
             'total' => 'required|numeric',
+            'phone' => 'required|string'
             // 'expiry_date' => 'nullable|string',
             // 'bank' => 'nullable|string',
             // 'cvv' => 'nullable|string',
@@ -58,6 +62,7 @@ class PayController extends Controller
             'province' => $request->input('province'),
             'district' => $request->input('district'),
             'ward' => $request->input('ward'),
+            'phone' => $request->input('phone'),
             'street' => $request->input('street'),
             'total' => $request->input('total'),
             'payment_method' => $paymentMethod,
@@ -65,7 +70,7 @@ class PayController extends Controller
         ]);
 
         $cartData = $request->input('cart');
-
+        // dd($cartData);
         // Nếu cartData là chuỗi, cố gắng chuyển đổi nó thành mảng
         if (is_string($cartData)) {
             $cartData = json_decode($cartData, true); // true để trả về mảng thay vì đối tượng
@@ -74,11 +79,20 @@ class PayController extends Controller
         // Kiểm tra xem cartData có phải là mảng hoặc đối tượng không
         if (is_array($cartData) || is_object($cartData)) {
             foreach ($cartData as $item) {
+                // Kiểm tra và chuyển đổi giá trị size nếu cần
+                $size = is_string($item['size']) ? $item['size'] : (string)$item['size'];
+
+                // Kiểm tra và đảm bảo giá trị image là chuỗi
+                $image = is_string($item['img']) ? $item['img'] : '';
+
                 OrderDetail::create([
                     'order_id' => $order->id,
+                    'product_id' => intval($item['product_id']),
                     'product_name' => $item['name'],
                     'quantity' => $item['quantity'],
-                    'price' => $item['price']
+                    'price' => $item['price'],
+                    'image' => $image, // Cung cấp giá trị cho thuộc tính image
+                    'size' => $size,   // Cung cấp giá trị cho thuộc tính size
                 ]);
             }
         } else {
@@ -90,29 +104,17 @@ class PayController extends Controller
         if ($paymentMethod == 'vnpay') {
             return $this->vn_payments($request);
         } elseif ($paymentMethod == 'momo') {
+            // dd('abc');
+            $orderId = $order->id;
             return $this->momo_payments($request);
-        } elseif ($paymentMethod == 'paypal') {
-            // return $this->paypal_payments($request);
+        } elseif ($paymentMethod == 'Thanh toán nhận hàng') {
+            // dd('123');
+            $orderId = $order->id;
+            return $this->cashOnDelivery($request, $orderId);
         } else {
             return response()->json(['error' => 'Invalid payment method'], 400);
         }
     }
-
-    // public function showPaymentForm(Request $request, $paymentMethod)
-    // {
-    //     $cartData = $request->input('cart');
-    //     $shippingFee = $request->input('shipping_fee');
-    //     $address = $request->input('address');
-    //     $province = $request->input('province');
-    //     $district = $request->input('district');
-    //     $ward = $request->input('ward');
-    //     $street = $request->input('street');
-    //     $total = $request->input('total');
-    //     return view('user.karma-master.payment-info', compact('paymentMethod','cartData', 'shippingFee', 'address', 'province', 'district', 'ward', 'street', 'total'));
-    // }
-
-
-
 
     public function vn_payments(Request $request)
     {
@@ -235,20 +237,189 @@ class PayController extends Controller
     public function handleVNPayReturn(Request $request)
     {
         // Lấy mã phản hồi từ VNPay
+        // dd($request);
         $vnp_ResponseCode = $request->input('vnp_ResponseCode');
+        $orderId = $request->input('vnp_TxnRef'); // Assuming this is how you get the order ID
 
         if ($vnp_ResponseCode == '00') {
             // Nếu thanh toán thành công
+
+            // Cập nhật trạng thái thanh toán thành công trong cơ sở dữ liệu
+            $order = Order::find($orderId);
+            if ($order) {
+                $order->payment_status = 'Giao dịch thành công'; // Hoặc trạng thái tương ứng
+                $order->save();
+
+                // Xóa giỏ hàng hoặc cập nhật số lượng
+                // Nếu sử dụng session để lưu giỏ hàng
+                $request->session()->forget('cart'); // Xóa giỏ hàng khỏi session
+
+                // Hoặc cập nhật giỏ hàng theo nhu cầu
+            }
+
             return view('payment.success', ['message' => 'Thanh toán thành công']);
         } else {
+            $order = Order::find($orderId);
+            if ($order) {
+                $order->payment_status = 'Giao dịch thất bại'; // Hoặc trạng thái tương ứng
+                $order->save();
+
+                // Xóa giỏ hàng hoặc cập nhật số lượng
+
+                // Hoặc cập nhật giỏ hàng theo nhu cầu
+            }
             // Nếu thanh toán không thành công
             return view('payment.failure', ['message' => 'Thanh toán không thành công']);
         }
     }
 
+    public function cashOnDelivery(Request $request, $orderId)
+    {
+        // dd($orderId);
+        $orderId = $orderId;
+        $order = Order::find($orderId);
+        if ($order) {
+            $order->payment_status = 'Giao dịch thành công'; // Hoặc trạng thái tương ứng
+            $order->save();
+
+            // Xóa giỏ hàng hoặc cập nhật số lượng
+            // Nếu sử dụng session để lưu giỏ hàng
+            $request->session()->forget('cart'); // Xóa giỏ hàng khỏi session
+
+            // Hoặc cập nhật giỏ hàng theo nhu cầu
+            return view('payment.success', ['message' => 'Thanh toán thành công']);
+        } else {
+            $order = Order::find($orderId);
+            if ($order) {
+                $order->payment_status = 'Giao dịch thất bại'; // Hoặc trạng thái tương ứng
+                $order->save();
+
+                // Xóa giỏ hàng hoặc cập nhật số lượng
+
+                // Hoặc cập nhật giỏ hàng theo nhu cầu
+            }
+            // Nếu thanh toán không thành công
+            return view('payment.failure', ['message' => 'Thanh toán không thành công']);
+        }
+    }
+
+    public function execPostRequest($url, $data)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data)
+            )
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result = curl_exec($ch);
+        //close connection
+        curl_close($ch);
+        return $result;
+    }
 
 
 
 
-    public function momo_payments() {}
+    public function momo_payments(Request $request)
+    {
+        // dd('123');
+        $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
+        $partnerCode = 'MOMOBKUN20180529';
+        $accessKey = 'klm05TvNBzhg7h7j';
+        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+
+        $orderInfo = "Thanh toán qua MoMo";
+        $amount = "10000";
+        $orderId = time() . "";
+        $redirectUrl = route('pay.momo.return');
+        $ipnUrl = route('pay.momo.return');
+        $extraData = "";
+
+
+
+        $partnerCode = $partnerCode;
+        $accessKey = $accessKey;
+        $serectkey = $secretKey;
+        $orderId = $orderId; // Mã đơn hàng
+        $orderInfo = $orderInfo;
+        $amount = $amount;
+        $ipnUrl = $ipnUrl;
+        $redirectUrl = $redirectUrl;
+        $extraData = $extraData;
+
+        $requestId = time() . "";
+        $requestType = "payWithATM";
+        // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
+        //before sign HMAC SHA256 signature
+        $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
+        $signature = hash_hmac("sha256", $rawHash, $serectkey);
+        $data = array(
+            'partnerCode' => $partnerCode,
+            'partnerName' => "Test",
+            "storeId" => "MomoTestStore",
+            'requestId' => $requestId,
+            'amount' => $amount,
+            'orderId' => $orderId,
+            'orderInfo' => $orderInfo,
+            'redirectUrl' => $redirectUrl,
+            'ipnUrl' => $ipnUrl,
+            'lang' => 'vi',
+            'extraData' => $extraData,
+            'requestType' => $requestType,
+            'signature' => $signature
+        );
+        $result = $this->execPostRequest($endpoint, json_encode($data));
+        $jsonResult = json_decode($result, true);  // decode json
+
+        //Just a example, please check more in there
+
+        if (isset($jsonResult['payUrl'])) {
+            return redirect()->away($jsonResult['payUrl']);
+        } else {
+            // Handle the case where payUrl is not returned
+            return redirect()->back()->with('error', 'Không thể kết nối tới cổng thanh toán MoMo.');
+        }
+    }
+
+    public function handleMOMOReturn(Request $request)
+    {
+        // dd('abc');
+        $data = $request->all();
+
+        if ($data['resultCode'] == 0) {
+            $orderId=Order::latest()->value('id');
+            // dd($orderId);
+            $order = Order::find($orderId); // Find order using the orderId from the request
+            // dd($order);
+            if ($order) {
+                $order->payment_status = 'Giao dịch thành công'; // Update payment status to "Giao dịch thành công"
+                $order->save();
+
+                // Clear the cart
+                $request->session()->forget('cart'); // Clear cart from session
+            }
+
+            return view('payment.success', ['message' => 'Thanh toán thành công']);
+        } else {
+            $orderId=Order::latest()->value('id');
+            // dd($orderId);
+            $order = Order::find($orderId); // Find order using the orderId from the request
+
+            if ($order) {
+                $order->payment_status = 'Giao dịch thất bại'; // Update payment status to "Giao dịch thất bại"
+                $order->save();
+            }
+
+            return view('payment.failure', ['message' => 'Thanh toán không thành công']);   
+        }
+    }
 }

@@ -98,7 +98,7 @@ class CartController extends Controller
     public function calculateShipping(Request $request)
     {
         $data = $request->all();
-
+        // dd($request->phone);
         $curlData = [
             'pick_province' => "Hồ Chí Minh",
             'pick_district' => "Quận 4", // Thông tin quận lấy hàng
@@ -135,6 +135,7 @@ class CartController extends Controller
             // dd($data);
             return back()->with([
                 'shipping_fee' => $fee['fee']['fee'],
+                'phone' => $request->input('phone'),
                 'address' => $request->input('address'),
                 'province' => $request->input('province'),
                 'district' => $request->input('district'),

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Order extends Model
 {
     use HasFactory;
@@ -19,10 +19,24 @@ class Order extends Model
         'ward',
         'street',
         'total',
-        'payment_method'
+        'phone',
+        'payment_method',
+        'payment_status'
     ];
 
-    // protected $casts = [
-    //     'cart_data' => 'array'
-    // ];
+    /// Define the relationship to the OrderDetail model
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Optionally cast the cart_data attribute to an array if it's stored as JSON
+    protected $casts = [
+        'cart_data' => 'array',
+    ];
 }

@@ -92,4 +92,5 @@ Route::prefix('pay')->name('pay.')->group(function () {
     Route::get('/momo/callback', [PayController::class, 'momo_payments_callback'])->name('momo.callback');
     Route::post('/storeOrder/{paymentMethod}', [PayController::class, 'storeOrder'])->name('storeOrder');
     Route::get('/handleVNPayReturn', [PayController::class, 'handleVNPayReturn'])->name('vnpay.return');
+    Route::get('/handleMOMOReturn', [PayController::class, 'handleMOMOReturn'])->name('momo.return');
 });

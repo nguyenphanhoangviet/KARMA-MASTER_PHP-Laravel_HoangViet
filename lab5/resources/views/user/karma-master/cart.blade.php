@@ -112,6 +112,10 @@
                                 <label for="street">Street:</label>
                                 <input type="text" id="street" name="street" class="form-control" placeholder="Enter street">
                             </div>
+                            <div class="form-group">
+                                <label for="street">Phone:</label>
+                                <input type="text" id="street" name="phone" class="form-control" placeholder="Enter phone">
+                            </div>
                             <div class="form-group" hidden>
                                 <label for="weight">Weight (grams):</label>
                                 <input type="number" id="weight" name="weight" class="form-control" placeholder="Enter weight" value="5000">
@@ -133,6 +137,7 @@
                 </div>
                 <div class="out_button_area">
                     <div class="checkout_btn_inner d-flex align-items-center">
+                        {{-- @dd(session('phone', old('phone'))) --}}
                         <form action="{{ route('pay.index') }}" method="POST">
                             @csrf
                             <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
@@ -142,6 +147,7 @@
                             <input type="hidden" name="district" value="{{ session('district', old('district')) }}">
                             <input type="hidden" name="ward" value="{{ session('ward', old('ward')) }}">
                             <input type="hidden" name="street" value="{{ session('street', old('street')) }}">
+                            <input type="hidden" name="phone" value="{{ session('phone', old('phone')) }}">
                             <input type="hidden" name="total" value="{{ collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']) + session('shipping_fee', 0) }}">
                             <button type="submit" class="primary-btn" style="border: none !important; box-shadow: none !important; margin-top:10px; border-radius: 0px">Proceed to checkout</button>
                         </form>

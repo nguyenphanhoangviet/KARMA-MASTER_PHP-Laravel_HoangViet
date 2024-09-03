@@ -19,7 +19,7 @@
             <h4 class="alert-heading">Thanh toán thành công!</h4>
             <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi. Đơn hàng của bạn đã được thanh toán thành công.</p>
             <hr>
-            <a href="{{ route('cart.index') }}" class="btn btn-primary">Quay lại giỏ hàng</a>
+            <a href="{{ route('user.dashboard') }}" class="btn btn-primary">Quay lại trang chủ</a>
         </div>
     </div>
 @endsection
