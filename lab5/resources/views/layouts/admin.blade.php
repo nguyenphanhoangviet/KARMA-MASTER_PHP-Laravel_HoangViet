@@ -1,3 +1,8 @@
+{{-- @if(isset($loginCount))
+    <p>Login count exists: {{ $loginCount }}</p>
+@else
+    <p>Login count does not exist</p>
+@endif --}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,7 +112,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a href="{{route('logout')}}">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>
@@ -168,11 +173,11 @@
                 </div>
             </div>
 
-            <div class="cardBox">
+            {{-- <div class="cardBox">
                 <div class="card">
                     <div>
-                        <div class="numbers">1,504</div>
-                        <div class="cardName">Daily Views</div>
+                        <div class="numbers">{{ $loginCount }}</div>
+                        <div class="cardName">Daily Login Count</div>
                     </div>
                     <div class="iconBx">
                         <ion-icon name="eye-outline"></ion-icon>
@@ -208,7 +213,8 @@
                         <ion-icon name="cash-outline"></ion-icon>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+            @include('component.stats')
 
             <div class="details">
                 @yield('content')

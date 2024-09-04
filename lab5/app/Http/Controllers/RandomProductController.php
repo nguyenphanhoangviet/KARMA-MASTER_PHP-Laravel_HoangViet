@@ -20,18 +20,27 @@ class RandomProductController extends Controller
         $randomProducts2 = Product::inRandomOrder()->take(8)->get();
         // Lấy 2 sản phẩm ngẫu nhiên khác
         $randomProducts3 = Product::inRandomOrder()->take(2)->get();
+        // Lấy 5 brand
+        $brands = Brand::take(5)->get();
+        // Lấy 8 sản phẩm ngẫu nhiên khác
+        $randomProducts4 = Product::inRandomOrder()->take(9)->get();
         // Trả về view và truyền dữ liệu sản phẩm
-        return view('user.karma-master.index', compact('randomProducts1', 'randomProducts2', 'randomProducts3'));
+
+
+        return view('user.karma-master.index', compact('randomProducts1', 'randomProducts2', 'randomProducts3', 'brands', 'randomProducts4'));
     }
 
     public function showSingleProduct($id)
     {
         // Lấy sản phẩm theo ID cùng với các đánh giá của nó
         $product = Product::with('reviews')->findOrFail($id);
+        // Lấy các bình luận cho sản phẩm hiện tại
         $comments = $product->comments()->whereNull('parent_id')->with('replies')->get();
+        // Lấy tất cả các sản phẩm
+        $allProducts = Product::inRandomOrder()->take(9)->get();
 
         // Trả về view và truyền dữ liệu sản phẩm
-        return view('user.karma-master.single-product', compact('product', 'comments'));
+        return view('user.karma-master.single-product', compact('product', 'comments', 'allProducts'));
     }
 
     public function storeSingleProductReview(Request $request, $product_id, $user_id)

@@ -67,7 +67,9 @@
                     <label for="sizes">Sizes:</label>
                     <select class="form-control" id="sizes" name="sizes[]" multiple>
                         @foreach($sizes as $size)
-                            <option value="{{ $size->id }}">{{ $size->size_number }}</option>
+                            <option value="{{ $size->id }}" {{ in_array($size->id, old('sizes', [])) ? 'selected' : '' }}>
+                                {{ $size->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

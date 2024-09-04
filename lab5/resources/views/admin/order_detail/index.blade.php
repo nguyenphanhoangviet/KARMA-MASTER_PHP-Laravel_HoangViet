@@ -27,9 +27,12 @@
                     <tr>
                         <th>ID</th>
                         <th>Order ID</th>
+                        <th>Product ID</th>
                         <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Image</th>
+                        <th>Size</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -38,9 +41,18 @@
                     <tr>
                         <td>{{ $orderDetail->id }}</td>
                         <td>{{ $orderDetail->order_id }}</td>
+                        <td>{{ $orderDetail->product_id }}</td>
                         <td>{{ $orderDetail->product_name }}</td>
                         <td>{{ $orderDetail->quantity }}</td>
-                        <td>{{ $orderDetail->price }}</td>
+                        <td>{{ number_format($orderDetail->price, 2) }}đ</td>
+                        <td>
+                            @if ($orderDetail->image)
+                                <img src="{{ asset('imgs/products/' . $orderDetail->image) }}" alt="Product Image" width="50">
+                            @else
+                                No Image
+                            @endif
+                        </td>
+                        <td>{{ $orderDetail->size }}</td>
                         <td>
                             <a href="{{ route('admin.order-details.show', $orderDetail->id) }}" class="btn btn-info">Show</a>
                             <a href="{{ route('admin.order-details.edit', $orderDetail->id) }}" class="btn btn-warning">Edit</a>

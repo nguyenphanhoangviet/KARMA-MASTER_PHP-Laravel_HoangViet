@@ -51,21 +51,18 @@
                             <label for="district">District:</label>
                             <input type="text" class="form-control" id="district" name="district" value="{{ old('district', $order->district) }}">
                         </div>
-                        <div class="form-group">
-                            <label for="ward">Ward:</label>
-                            <input type="text" class="form-control" id="ward" name="ward" value="{{ old('ward', $order->ward) }}">
-                        </div>
+                        
                     </div>
 
                     <!-- Group 2: Last 5 fields -->
                     <div class="col-md-6 d-flex flex-column">
                         <div class="form-group">
-                            <label for="street">Street:</label>
-                            <input type="text" class="form-control" id="street" name="street" value="{{ old('street', $order->street) }}">
+                            <label for="ward">Ward:</label>
+                            <input type="text" class="form-control" id="ward" name="ward" value="{{ old('ward', $order->ward) }}">
                         </div>
                         <div class="form-group">
-                            <label for="total">Total:</label>
-                            <input type="number" class="form-control" id="total" name="total" value="{{ old('total', $order->total) }}">
+                            <label for="street">Street:</label>
+                            <input type="text" class="form-control" id="street" name="street" value="{{ old('street', $order->street) }}">
                         </div>
                         <div class="form-group">
                             <label for="payment_method">Payment Method:</label>

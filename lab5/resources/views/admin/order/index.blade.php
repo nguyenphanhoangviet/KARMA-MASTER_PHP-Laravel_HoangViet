@@ -89,7 +89,7 @@
                         </div>
                     @endforeach
                 @else
-                    <p>No orders found.</p>
+                    <p>Không có đơn hàng nào.</p>
                 @endif
 
                 {{ $orders->links() }}

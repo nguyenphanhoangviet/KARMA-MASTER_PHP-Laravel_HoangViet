@@ -22,8 +22,8 @@
             <form action="{{ route('admin.orders.store') }}" method="POST">
                 @csrf
                 <div class="row">
-                    <!-- Group 1: First 5 fields -->
-                    <div class="col-md-6 d-flex flex-column">
+                    <!-- Group 1: Address and Contact Information -->
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="user_id">User:</label>
                             <select class="form-control" id="user_id" name="user_id">
@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-group">
                             <label for="shipping_fee">Shipping Fee:</label>
-                            <input type="number" class="form-control" id="shipping_fee" name="shipping_fee" value="{{ old('shipping_fee') }}">
+                            <input type="number" class="form-control" id="shipping_fee" name="shipping_fee" value="{{ old('shipping_fee') }}" step="0.01">
                         </div>
                         <div class="form-group">
                             <label for="address">Address:</label>
@@ -50,21 +50,17 @@
                             <label for="district">District:</label>
                             <input type="text" class="form-control" id="district" name="district" value="{{ old('district') }}">
                         </div>
+                    </div>
+
+                    <!-- Group 2: Payment and Contact Information -->
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="ward">Ward:</label>
                             <input type="text" class="form-control" id="ward" name="ward" value="{{ old('ward') }}">
                         </div>
-                    </div>
-
-                    <!-- Group 2: Last 5 fields -->
-                    <div class="col-md-6 d-flex flex-column">
                         <div class="form-group">
                             <label for="street">Street:</label>
                             <input type="text" class="form-control" id="street" name="street" value="{{ old('street') }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="total">Total:</label>
-                            <input type="number" class="form-control" id="total" name="total" value="{{ old('total') }}">
                         </div>
                         <div class="form-group">
                             <label for="payment_method">Payment Method:</label>

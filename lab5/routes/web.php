@@ -18,6 +18,9 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\cart\CartController;
 use App\Http\Controllers\cart\PayController;
+use App\Http\Controllers\StatController;
+use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/key-check', function () {
     $key = config('app.key');
@@ -54,7 +57,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login-store');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::get('/contact', function () {
     return view('user.karma-master.contact');
@@ -97,4 +100,9 @@ Route::prefix('pay')->name('pay.')->group(function () {
     Route::post('/storeOrder/{paymentMethod}', [PayController::class, 'storeOrder'])->name('storeOrder');
     Route::get('/handleVNPayReturn', [PayController::class, 'handleVNPayReturn'])->name('vnpay.return');
     Route::get('/handleMOMOReturn', [PayController::class, 'handleMOMOReturn'])->name('momo.return');
+});
+
+//Stat
+Route::prefix('stat')->group(function () {
+    Route::get('/logincount', [StatController::class, 'showDailyLoginStats'])->name('stat.logincount');
 });

@@ -14,10 +14,10 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et
                                         dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-                                    <div class="add-bag d-flex align-items-center">
+                                    {{-- <div class="add-bag d-flex align-items-center">
                                         <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
                                         <span class="add-text text-uppercase">Add to Bag</span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="col-lg-7">
@@ -195,272 +195,38 @@
                 </div>
                 <div class="row">
                     <!-- single product -->
-                    @foreach ($randomProducts1 as $product)
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
-                                    alt="{{ $product->name }}">
-                                <div class="product-details">
-                                    <h6>{{ $product->name }}</h6>
-                                    <div class="price">
-                                        <h6>{{ number_format($product->price, 0) }} VND</h6>
-                                        @if ($product->original_price)
-                                            <h6 class="l-through">{{ number_format($product->original_price, 0) }} VND
-                                            </h6>
-                                        @endif
-                                    </div>
-                                    <div class="prd-bottom">
-                                        {{-- <a href="{{ route('single-product', $product->id) }}" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a> --}}
-                                        <a href="#" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        {{-- <a href="#" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a> --}}
-                                        <a href="{{ route('single-product', $product->id) }}" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
+                    @if ($randomProducts1->isNotEmpty())
+                        @foreach ($randomProducts1 as $product)
+                            <div class="col-lg-3 col-md-6">
+                                <div class="single-product">
+                                    <a href="{{ route('single-product', $product->id) }}">
+                                        <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
+                                            alt="{{ $product->name }}" style="height: 200px; width:200px">
+                                    </a>
+                                    <div class="product-details">
+                                        <h6>{{ $product->name }}</h6>
+                                        <div class="price">
+                                            <h6>{{ number_format($product->price, 0) }} VND</h6>
+                                            @if ($product->original_price)
+                                                <h6 class="l-through">{{ number_format($product->original_price, 0) }} VND
+                                                </h6>
+                                            @endif
+                                        </div>
+                                        {{-- <div class="prd-bottom">
+                                            <a href="{{ route('single-product', $product->id) }}" class="social-info">
+                                                <span class="lnr lnr-move"></span>
+                                                <p class="hover-text">view more</p>
+                                            </a>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="col-12">
+                            <p class="text-center">Không có sản phẩm nào</p>
                         </div>
-                    @endforeach
-                    <!-- single product -->
-                    {{-- <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p2.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <!-- single product -->
-                    {{-- <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p3.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p4.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p5.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p6.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p7.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p8.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                    @endif
                 </div>
             </div>
         </div>
@@ -480,279 +246,32 @@
                 </div>
                 <div class="row">
                     <!-- single product -->
-                    @foreach ($randomProducts2 as $product)
-                        <div class="col-lg-3 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
-                                    alt="{{ $product->name }}">
-                                <div class="product-details">
-                                    <h6>{{ $product->name }}</h6>
-                                    <div class="price">
-                                        <h6>{{ number_format($product->price, 0) }} VND</h6>
-                                        @if ($product->original_price)
-                                            <h6 class="l-through">{{ number_format($product->original_price, 0) }} VND
-                                            </h6>
-                                        @endif
-                                    </div>
-                                    <div class="prd-bottom">
-                                        {{-- <form action="{{ route('cart.add') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                            <input type="hidden" name="quantity" value="1">
-                                            <input type="hidden" name="size" value="default_size"> <!-- Sửa 'default_size' thành giá trị size mong muốn nếu có -->
-                                            <button type="submit" class="social-info">
-                                                <span class="ti-bag"></span>
-                                                <p class="hover-text">add to bag</p>
-                                            </button>
-                                        </form> --}}
-                                        <a href="#" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        {{-- <a href="#" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a> --}}
-                                        <a href="{{ route('single-product', $product->id) }}" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
+                    @if ($randomProducts2->isNotEmpty())
+                        @foreach ($randomProducts2 as $product)
+                            <div class="col-lg-3 col-md-6">
+                                <div class="single-product">
+                                    <a href="{{ route('single-product', $product->id) }}">
+                                        <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
+                                            alt="{{ $product->name }}" style="height: 200px; width:200px">
+                                    </a>
+                                    <div class="product-details">
+                                        <h6>{{ $product->name }}</h6>
+                                        <div class="price">
+                                            <h6>{{ number_format($product->price, 0) }} VND</h6>
+                                            @if ($product->original_price)
+                                                <h6 class="l-through">{{ number_format($product->original_price, 0) }} VND
+                                                </h6>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        @endforeach
+                    @else
+                        <div class="col-12">
+                            <p class="text-center">Không có sản phẩm nào</p>
                         </div>
-                    @endforeach
-                    <!-- single product -->
-                    {{-- <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p8.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p3.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p5.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p1.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p4.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p1.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single product -->
-                    <div class="col-lg-3 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/p8.jpg') }}" alt="">
-                            <div class="product-details">
-                                <h6>addidas New Hammer sole
-                                    for Sports person</h6>
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <div class="prd-bottom">
-
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-heart"></span>
-                                        <p class="hover-text">Wishlist</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-sync"></span>
-                                        <p class="hover-text">compare</p>
-                                    </a>
-                                    <a href="" class="social-info">
-                                        <span class="lnr lnr-move"></span>
-                                        <p class="hover-text">view more</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                    @endif
                 </div>
             </div>
         </div>
@@ -790,15 +309,17 @@
                             </div>
                         </div>
                     </div>
-                    <a href="" class="primary-btn">Shop Now</a>
+                    <a href="{{ route('category') }}" class="primary-btn">Shop Now</a>
                 </div>
                 <div class="col-lg-6 no-padding exclusive-right">
                     <div class="active-exclusive-product-slider">
                         @foreach ($randomProducts3 as $product)
                             <!-- single exclusive carousel -->
                             <div class="single-exclusive-slider">
-                                <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
-                                    alt="{{ $product->name }}">
+                                <a href="{{ route('single-product', $product->id) }}">
+                                    <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
+                                        alt="{{ $product->name }}" style="height: 400px; width:300px">
+                                </a>
                                 <div class="product-details">
                                     <div class="price">
                                         <h6>{{ number_format($product->price, 0) }} VND</h6>
@@ -808,30 +329,9 @@
                                         @endif
                                     </div>
                                     <h4>{{ $product->name }}</h4>
-                                    <div class="add-bag d-flex align-items-center justify-content-center">
-                                        <a class="add-btn" href=""><span class="ti-bag"></span></a>
-                                        <span class="add-text text-uppercase">Add to Bag</span>
-                                    </div>
                                 </div>
                             </div>
                         @endforeach
-                            <!-- single exclusive carousel -->
-                            {{-- <div class="single-exclusive-slider">
-                            <img class="img-fluid" src="{{ asset('imgs/karma-master/product/e-p1.png') }}"
-                                alt="">
-                            <div class="product-details">
-                                <div class="price">
-                                    <h6>$150.00</h6>
-                                    <h6 class="l-through">$210.00</h6>
-                                </div>
-                                <h4>addidas New Hammer sole
-                                    for Sports person</h4>
-                                <div class="add-bag d-flex align-items-center justify-content-center">
-                                    <a class="add-btn" href=""><span class="ti-bag"></span></a>
-                                    <span class="add-text text-uppercase">Add to Bag</span>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -843,26 +343,18 @@
     <section class="brand-area section_gap">
         <div class="container">
             <div class="row">
-                <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('imgs/karma-master/brand/1.png') }}"
-                        alt="">
-                </a>
-                <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('imgs/karma-master/brand/2.png') }}"
-                        alt="">
-                </a>
-                <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('imgs/karma-master/brand/3.png') }}"
-                        alt="">
-                </a>
-                <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('imgs/karma-master/brand/4.png') }}"
-                        alt="">
-                </a>
-                <a class="col single-img" href="#">
-                    <img class="img-fluid d-block mx-auto" src="{{ asset('imgs/karma-master/brand/5.png') }}"
-                        alt="">
-                </a>
+                @if ($brands->isNotEmpty())
+                    @foreach ($brands as $brand)
+                        <a class="col single-img" href="{{ route('category') }}">
+                            <img class="img-fluid d-block mx-auto" src="{{ asset('imgs/brands/' . $brand->img) }}"
+                                alt="{{ $brand->name }}" style="height:80px; width:100px">
+                        </a>
+                    @endforeach
+                @else
+                    <div class="col-12 text-center">
+                        <p>Không có nhãn hàng nào</p>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -884,115 +376,27 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r1.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
+                        @foreach ($randomProducts4 as $product)
+                            <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                                <div class="single-related-product d-flex">
+                                    <a href="{{ route('single-product', $product->id) }}">
+                                        <img src="{{ asset('imgs/products/' . $product->img) }}"
+                                            alt="{{ $product->name }}" style="width:70px; height:70px">
+                                    </a>
+                                    <div class="desc">
+                                        <a href="{{ route('single-product', $product->id) }}"
+                                            class="title">{{ $product->name }}</a>
+                                        <div class="price">
+                                            <h6>{{ number_format($product->price, 0) }} VND</h6>
+                                            @if ($product->original_price)
+                                                <h6 class="l-through">{{ number_format($product->original_price, 0) }} VND
+                                                </h6>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r2.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r3.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r5.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r6.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r7.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r9.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r10.jpg') }}"
-                                        alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r1.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-3">
