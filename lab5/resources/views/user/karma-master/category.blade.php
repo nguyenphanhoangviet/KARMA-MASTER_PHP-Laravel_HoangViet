@@ -24,7 +24,8 @@
                     <ul class="main-categories">
                         @foreach ($categories as $category)
                             <li class="main-nav-list">
-                                <a href="{{ route('category', array_merge(request()->all(), ['category' => $category->id])) }}">
+                                <a
+                                    href="{{ route('category', array_merge(request()->all(), ['category' => $category->id])) }}">
                                     <span class="lnr lnr-arrow-right"></span>{{ $category->name }}
                                     <span class="number">({{ $category->products->count() }})</span>
                                 </a>
@@ -33,71 +34,44 @@
                     </ul>
                 </div>
                 <div class="sidebar-filter mt-50">
-					<div class="top-filter-head">Product Filters</div>
-					<div class="common-filter">
+                    <div class="top-filter-head">Product Filters</div>
+                    <div class="common-filter">
                         <div class="head">Brands</div>
                         <form id="filterForm" action="{{ route('category') }}" method="GET">
                             <ul>
-                                @foreach($brands as $brand)
+                                @foreach ($brands as $brand)
                                     <li class="filter-list">
-                                        <input class="pixel-checkbox" type="checkbox" id="brand{{ $brand->id }}" name="brand" value="{{ $brand->id }}" {{ request('brand') == $brand->id ? 'checked' : '' }} onchange="this.form.submit()">
+                                        <input class="pixel-checkbox" type="checkbox" id="brand{{ $brand->id }}"
+                                            name="brand" value="{{ $brand->id }}"
+                                            {{ request('brand') == $brand->id ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
                                         <label for="brand{{ $brand->id }}">{{ $brand->name }}</label>
                                     </li>
                                 @endforeach
                             </ul>
                         </form>
                     </div>
-					<div class="common-filter">
+                    <div class="common-filter">
                         <div class="head">Color</div>
                         <form id="filterForm" action="{{ route('category') }}" method="GET">
                             <ul>
-                                @foreach($colors as $color)
+                                @foreach ($colors as $color)
                                     <li class="filter-list">
-                                        <input class="pixel-checkbox" type="checkbox" id="color{{ $color->id }}" name="color" value="{{ $color->id }}" {{ request('color') == $color->id ? 'checked' : '' }} onchange="this.form.submit()">
+                                        <input class="pixel-checkbox" type="checkbox" id="color{{ $color->id }}"
+                                            name="color" value="{{ $color->id }}"
+                                            {{ request('color') == $color->id ? 'checked' : '' }}
+                                            onchange="this.form.submit()">
                                         <label for="color{{ $color->id }}">{{ $color->name }}</label>
                                     </li>
                                 @endforeach
                             </ul>
                         </form>
-                    </div>        
-					{{-- <div class="common-filter">
-						<div class="head">Price</div>
-						<div class="price-range-area">
-							<div id="price-range"></div>
-							<div class="value-wrapper d-flex">
-								<div class="price">Price:</div>
-								<span>$</span>
-								<div id="lower-value"></div>
-								<div class="to">to</div>
-								<span>$</span>
-								<div id="upper-value"></div>
-							</div>
-						</div>
-					</div> --}}
-				</div>
+                    </div>
+                </div>
             </div>
             <div class="col-xl-9 col-lg-8 col-md-7">
                 <!-- Start Filter Bar -->
                 <div class="filter-bar d-flex flex-wrap align-items-center">
-                    <div class="sorting">
-                        <select>
-                            <option value="1">Default sorting</option>
-                            <option value="1">Default sorting</option>
-                            <option value="1">Default sorting</option>
-                        </select>
-                    </div>
-                    <div class="sorting mr-auto">
-                        <form id="itemsPerPageForm" action="{{ route('category') }}" method="GET">
-                            <select name="itemsPerPage" onchange="this.form.submit()">
-                                <option value="10" {{ request('itemsPerPage') == 10 ? 'selected' : '' }}>Show 10</option>
-                                <option value="20" {{ request('itemsPerPage') == 20 ? 'selected' : '' }}>Show 20</option>
-                                <option value="30" {{ request('itemsPerPage') == 30 ? 'selected' : '' }}>Show 30</option>
-                            </select>
-                            @foreach (request()->except('itemsPerPage') as $key => $value)
-                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                            @endforeach
-                        </form>
-                    </div>
                     <div class="pagination">
                         {{ $products->appends(request()->query())->links() }}
                     </div>
@@ -110,8 +84,10 @@
                             @foreach ($products as $product)
                                 <div class="col-lg-4 col-md-6">
                                     <div class="single-product">
-                                        <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
-                                            alt="{{ $product->name }}">
+                                        <a href="{{ route('single-product', $product->id) }}">
+                                            <img class="img-fluid" src="{{ asset('imgs/products/' . $product->img) }}"
+                                                alt="{{ $product->name }}">
+                                        </a>
                                         <div class="product-details">
                                             <h6>{{ $product->name }}</h6>
                                             <div class="price">
@@ -121,24 +97,6 @@
                                                         VND
                                                     </h6>
                                                 @endif
-                                            </div>
-                                            <div class="prd-bottom">
-                                                <a href="" class="social-info">
-                                                    <span class="ti-bag"></span>
-                                                    <p class="hover-text">add to bag</p>
-                                                </a>
-                                                <a href="" class="social-info">
-                                                    <span class="lnr lnr-heart"></span>
-                                                    <p class="hover-text">Wishlist</p>
-                                                </a>
-                                                <a href="" class="social-info">
-                                                    <span class="lnr lnr-sync"></span>
-                                                    <p class="hover-text">compare</p>
-                                                </a>
-                                                <a href="{{ route('single-product', $product->id) }}" class="social-info">
-                                                    <span class="lnr lnr-move"></span>
-                                                    <p class="hover-text">view more</p>
-                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -185,188 +143,11 @@
                         @else
                             <p>No products found.</p>
                         @endif
-                        <!-- single product -->
-                        {{-- <div class="col-lg-4 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="img/product/p2.jpg" alt="">
-                                <div class="product-details">
-                                    <h6>addidas New Hammer sole
-                                        for Sports person</h6>
-                                    <div class="price">
-                                        <h6>$150.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                    <div class="prd-bottom">
-
-                                        <a href="" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single product -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="img/product/p3.jpg" alt="">
-                                <div class="product-details">
-                                    <h6>addidas New Hammer sole
-                                        for Sports person</h6>
-                                    <div class="price">
-                                        <h6>$150.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                    <div class="prd-bottom">
-
-                                        <a href="" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single product -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="img/product/p4.jpg" alt="">
-                                <div class="product-details">
-                                    <h6>addidas New Hammer sole
-                                        for Sports person</h6>
-                                    <div class="price">
-                                        <h6>$150.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                    <div class="prd-bottom">
-
-                                        <a href="" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single product -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="img/product/p5.jpg" alt="">
-                                <div class="product-details">
-                                    <h6>addidas New Hammer sole
-                                        for Sports person</h6>
-                                    <div class="price">
-                                        <h6>$150.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                    <div class="prd-bottom">
-
-                                        <a href="" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single product -->
-                        <div class="col-lg-4 col-md-6">
-                            <div class="single-product">
-                                <img class="img-fluid" src="img/product/p6.jpg" alt="">
-                                <div class="product-details">
-                                    <h6>addidas New Hammer sole
-                                        for Sports person</h6>
-                                    <div class="price">
-                                        <h6>$150.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
-                                    </div>
-                                    <div class="prd-bottom">
-
-                                        <a href="" class="social-info">
-                                            <span class="ti-bag"></span>
-                                            <p class="hover-text">add to bag</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-heart"></span>
-                                            <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-sync"></span>
-                                            <p class="hover-text">compare</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="lnr lnr-move"></span>
-                                            <p class="hover-text">view more</p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </section>
                 <!-- End Best Seller -->
                 <!-- Start Filter Bar -->
                 <div class="filter-bar d-flex flex-wrap align-items-center">
-                    <div class="sorting mr-auto">
-                        <form id="itemsPerPageForm" action="{{ route('category') }}" method="GET">
-                            <select name="itemsPerPage" onchange="this.form.submit()">
-                                <option value="10" {{ request('itemsPerPage') == 10 ? 'selected' : '' }}>Show 10</option>
-                                <option value="20" {{ request('itemsPerPage') == 20 ? 'selected' : '' }}>Show 20</option>
-                                <option value="30" {{ request('itemsPerPage') == 30 ? 'selected' : '' }}>Show 30</option>
-                            </select>
-                            @foreach (request()->except('itemsPerPage') as $key => $value)
-                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                            @endforeach
-                        </form>
-                    </div>
                     <div class="pagination">
                         {{ $products->appends(request()->query())->links() }}
                     </div>
@@ -392,19 +173,35 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                            <div class="single-related-product d-flex">
-                                <a href="#"><img src="{{ asset('imgs/karma-master/r1.jpg') }}" alt=""></a>
-                                <div class="desc">
-                                    <a href="#" class="title">Black lace Heels</a>
-                                    <div class="price">
-                                        <h6>$189.00</h6>
-                                        <h6 class="l-through">$210.00</h6>
+                        @if ($allProducts->isEmpty())
+                            <div class="col-lg-12">
+                                <p>Chưa có sản phẩm nào.</p>
+                            </div>
+                        @else
+                            @foreach ($allProducts as $product)
+                                <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                                    <div class="single-related-product d-flex">
+                                        <a href="{{ route('single-product', $product->id) }}">
+                                            <img src="{{ asset('imgs/products/' . $product->img) }}"
+                                                alt="{{ $product->name }}" style="width:70px; height:70px">
+                                        </a>
+                                        <div class="desc">
+                                            <a href="{{ route('single-product', $product->id) }}"
+                                                class="title">{{ $product->name }}</a>
+                                            <div class="price">
+                                                <h6>{{ number_format($product->price, 0) }} VND</h6>
+                                                @if ($product->original_price)
+                                                    <h6 class="l-through">{{ number_format($product->original_price, 0) }}
+                                                        VND
+                                                    </h6>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                            @endforeach
+                        @endif
+                        {{-- <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                             <div class="single-related-product d-flex">
                                 <a href="#"><img src="{{ asset('imgs/karma-master/r2.jpg') }}" alt=""></a>
                                 <div class="desc">
@@ -501,7 +298,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -516,86 +313,6 @@
         </div>
     </section>
     <!-- End related-product Area -->
-
-    <!-- start footer Area -->
-    {{-- <footer class="footer-area section_gap">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>About Us</h6>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore
-							magna aliqua.
-						</p>
-					</div>
-				</div>
-				<div class="col-lg-4  col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Newsletter</h6>
-						<p>Stay update with our latest</p>
-						<div class="" id="mc_embed_signup">
-
-							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-							 method="get" class="form-inline">
-
-								<div class="d-flex flex-row">
-
-									<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
-									 required="" type="email">
-
-
-									<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-									<div style="position: absolute; left: -5000px;">
-										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-									</div>
-
-									<!-- <div class="col-lg-4 col-md-4">
-													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
-												</div>  -->
-								</div>
-								<div class="info"></div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3  col-md-6 col-sm-6">
-					<div class="single-footer-widget mail-chimp">
-						<h6 class="mb-20">Instragram Feed</h6>
-						<ul class="instafeed d-flex flex-wrap">
-							<li><img src="img/i1.jpg" alt=""></li>
-							<li><img src="img/i2.jpg" alt=""></li>
-							<li><img src="img/i3.jpg" alt=""></li>
-							<li><img src="img/i4.jpg" alt=""></li>
-							<li><img src="img/i5.jpg" alt=""></li>
-							<li><img src="img/i6.jpg" alt=""></li>
-							<li><img src="img/i7.jpg" alt=""></li>
-							<li><img src="img/i8.jpg" alt=""></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-2 col-md-6 col-sm-6">
-					<div class="single-footer-widget">
-						<h6>Follow Us</h6>
-						<p>Let us be social</p>
-						<div class="footer-social d-flex align-items-center">
-							<a href="#"><i class="fa fa-facebook"></i></a>
-							<a href="#"><i class="fa fa-twitter"></i></a>
-							<a href="#"><i class="fa fa-dribbble"></i></a>
-							<a href="#"><i class="fa fa-behance"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
-				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</p>
-			</div>
-		</div>
-	</footer> --}}
-    <!-- End footer Area -->
 
     <!-- Modal Quick Product View -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">

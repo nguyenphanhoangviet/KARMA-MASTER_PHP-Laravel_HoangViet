@@ -84,9 +84,10 @@ class RandomProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         $colors = Color::all();
+        $allProducts = Product::inRandomOrder()->take(9)->get();
 
         // Trả về view và truyền dữ liệu sản phẩm
-        return view('user.karma-master.category', compact('categories', 'brands', 'colors', 'products', 'itemsPerPage'));
+        return view('user.karma-master.category', compact('categories', 'brands', 'colors', 'products', 'itemsPerPage', 'allProducts'));
     }
 
     public function storeSingleProductComment(Request $request, $product_id, $user_id)
