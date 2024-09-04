@@ -25,18 +25,19 @@
             <ul>
                 <li>
                     <a href="#">
-                        <span class="icon">
+                        {{-- <span class="icon">
                             <ion-icon name="logo-apple"></ion-icon>
                         </span>
-                        <span class="title">Karma-Master</span>
+                        <span class="title">Karma-Master</span> --}}
+                        <img src="{{asset('imgs/karma-master/logo.png')}}" alt="" height="40" width="100" style="margin:15px 0 0 22px;">
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.user.index') }}">
                         <span class="icon">
-                            <ion-icon name="person-circle-outline"></ion-icon>
+                            <ion-icon name="person-circle-outline" ></ion-icon>
                         </span>
-                        <span class="title">Users</span>
+                        <span class="title" >Users</span>
                     </a>
                 </li>
                 <li>
@@ -66,92 +67,59 @@
                 <li>
                     <a href="{{ route('admin.products.index') }}">
                         <span class="icon">
-                            <ion-icon name="cube-outline"></ion-icon>
+                            <ion-icon name="cube-outline" ></ion-icon>
                         </span>
-                        <span class="title">Products</span>
-                    </a>
+                        <span class="title" >Products</span>
+                    </a> 
                 </li>
                 <li>
                     <a href="{{ route('admin.reviews.index') }}">
                         <span class="icon">
-                            <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                            <ion-icon name="chatbubble-ellipses-outline" ></ion-icon>
                         </span>
-                        <span class="title">Reviews</span>
+                        <span class="title" >Reviews</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.comments.index') }}">
                         <span class="icon">
-                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                            <ion-icon name="chatbubbles-outline" ></ion-icon>
                         </span>
-                        <span class="title">Comments</span>
+                        <span class="title" >Comments</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.sizes.index') }}">
                         <span class="icon">
-                            <ion-icon name="expand-outline"></ion-icon>
+                            <ion-icon name="expand-outline" ></ion-icon>
                         </span>
-                        <span class="title">Size</span>
+                        <span class="title" >Size</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.orders.index') }}">
                         <span class="icon">
-                            <ion-icon name="cart-outline"></ion-icon>
+                            <ion-icon name="cart-outline" ></ion-icon>
                         </span>
-                        <span class="title">Orders</span>
+                        <span class="title" >Orders</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.order-details.index') }}">
                         <span class="icon">
-                            <ion-icon name="reader-outline"></ion-icon>
+                            <ion-icon name="reader-outline" ></ion-icon>
                         </span>
-                        <span class="title">Order Details</span>
+                        <span class="title" >Order Details</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{route('logout')}}">
                         <span class="icon">
-                            <ion-icon name="log-out-outline"></ion-icon>
+                            <ion-icon name="log-out-outline" ></ion-icon>
                         </span>
-                        <span class="title">Logout</span>
+                        <span class="title" >Logout</span>
                     </a>
                 </li>
-
-                {{-- <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="help-outline"></ion-icon>
-                        </span>
-                        <span class="title">Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </span>
-                        <span class="title">Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                        <span class="title">Password</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="log-out-outline"></ion-icon>
-                        </span>
-                        <span class="title">Sign Out</span>
-                    </a>
-                </li> --}}
             </ul>
         </div>
 
@@ -160,135 +128,11 @@
                 <div class="toggle">
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
-
-                <div class="search">
-                    <label class="label-icon">
-                        <input type="text" placeholder="Search here">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-
-                <div class="user">
-                    <img src="{{ asset('imgs/img-layouts/customer01.jpg') }}" alt="">
-                </div>
             </div>
 
-            {{-- <div class="cardBox">
-                <div class="card">
-                    <div>
-                        <div class="numbers">{{ $loginCount }}</div>
-                        <div class="cardName">Daily Login Count</div>
-                    </div>
-                    <div class="iconBx">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">80</div>
-                        <div class="cardName">Sales</div>
-                    </div>
-                    <div class="iconBx">
-                        <ion-icon name="cart-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">284</div>
-                        <div class="cardName">Comments</div>
-                    </div>
-                    <div class="iconBx">
-                        <ion-icon name="chatbubbles-outline"></ion-icon>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div>
-                        <div class="numbers">$7,842</div>
-                        <div class="cardName">Earning</div>
-                    </div>
-                    <div class="iconBx">
-                        <ion-icon name="cash-outline"></ion-icon>
-                    </div>
-                </div>
-            </div> --}}
-            @include('component.stats')
 
             <div class="details">
                 @yield('content')
-
-                {{-- <div class="recentCustomers">
-                    <div class="cardHeader">
-                        <h2>Recent Customers</h2>
-                    </div>
-
-                    <table>
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer02.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>David <br> <span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer01.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Amit <br> <span>India</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer02.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>David <br> <span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer01.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Amit <br> <span>India</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer02.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>David <br> <span>Italy</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer01.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>Amit <br> <span>India</span></h4>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td width="60px">
-                                <div class="imgBx"><img src="{{ asset('imgs/img-layouts/customer02.jpg') }}" alt=""></div>
-                            </td>
-                            <td>
-                                <h4>David <br> <span>Italy</span></h4>
-                            </td>
-                        </tr>
-                    </table>
-                </div> --}}
             </div>
         </div>
     </div>
