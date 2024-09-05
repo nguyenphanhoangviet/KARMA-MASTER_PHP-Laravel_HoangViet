@@ -15,17 +15,6 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                'id' => 1,
-                'name' => 'Nguyễn Phan Hoàng Việt',
-                'email' => 'abc@gmail.com',
-                'email_verified_at' => null,
-                'password' => '$2y$12$mE/wvYlZU7iiDnUoGaZFzuV/xAX93Y6yXQZv/Q8PAhRgx9jGNaL.y',
-                'role' => 'user',
-                'remember_token' => null,
-                'created_at' => Carbon::create('2024', '06', '22', '01', '49', '28'),
-                'updated_at' => Carbon::create('2024', '06', '22', '01', '49', '28')
-            ],
-            [
                 'id' => 2,
                 'name' => 'Nguyễn Phan Hoàng Việt',
                 'email' => 'viet.nguyenphanhoang@gmail.com',
